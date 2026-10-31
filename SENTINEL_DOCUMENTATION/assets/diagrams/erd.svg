@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="482" height="360" preserveAspectRatio="xMinYMin meet" viewBox="0 0 482 360" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="482" height="360"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-360)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="6" y="286" width="104" height="52.60000000000002" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="6" y="325.6" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="10" y="329.1" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,658) scale(1,-1)">users</text>
+			<text x="10" y="316.6" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,633) scale(1,-1)">id PK</text>
+			<text x="10" y="308.20000000000005" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,616) scale(1,-1)">email UQ</text>
+			<text x="10" y="299.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,599) scale(1,-1)">role CK</text>
+			<text x="10" y="291.40000000000003" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,582) scale(1,-1)">customer_id FK</text>
+			<rect x="126" y="286" width="104" height="44.19999999999999" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="126" y="317.2" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="130" y="320.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,641) scale(1,-1)">customers</text>
+			<text x="130" y="308.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,616) scale(1,-1)">id PK (CUS_)</text>
+			<text x="130" y="299.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,599) scale(1,-1)">name, city</text>
+			<text x="130" y="291.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,582) scale(1,-1)">home_lat/lon</text>
+			<rect x="246" y="286" width="104" height="44.19999999999999" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="246" y="317.2" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="250" y="320.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,641) scale(1,-1)">payment_destinations</text>
+			<text x="250" y="308.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,616) scale(1,-1)">id PK (DST_)</text>
+			<text x="250" y="299.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,599) scale(1,-1)">kind, is_flagged</text>
+			<text x="250" y="291.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,582) scale(1,-1)">owner_customer_id FK</text>
+			<rect x="370" y="286" width="104" height="44.19999999999999" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="370" y="317.2" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="374" y="320.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,641) scale(1,-1)">merchants</text>
+			<text x="374" y="308.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,616) scale(1,-1)">id PK (MER_)</text>
+			<text x="374" y="299.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,599) scale(1,-1)">risk_score CK</text>
+			<text x="374" y="291.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,582) scale(1,-1)">payout_destination FK</text>
+			<rect x="6" y="196" width="104" height="35.80000000000001" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="6" y="218.8" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="10" y="222.3" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,444) scale(1,-1)">devices</text>
+			<text x="10" y="209.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,419) scale(1,-1)">id PK (DEV_)</text>
+			<text x="10" y="201.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,402) scale(1,-1)">fingerprint UQ</text>
+			<rect x="126" y="172" width="116" height="69.4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="126" y="228.4" width="116" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="130" y="231.9" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,463) scale(1,-1)">transactions</text>
+			<text x="130" y="219.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,438) scale(1,-1)">id PK (TXN_)</text>
+			<text x="130" y="211.0" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,422) scale(1,-1)">customer/merchant FK</text>
+			<text x="130" y="202.6" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,405) scale(1,-1)">device/destination FK</text>
+			<text x="130" y="194.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,388) scale(1,-1)">amount CK&gt;0</text>
+			<text x="130" y="185.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,371) scale(1,-1)">status CK, risk_level</text>
+			<text x="130" y="177.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,354) scale(1,-1)">review_status, is_fraud</text>
+			<rect x="370" y="206" width="104" height="44.19999999999999" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="370" y="237.2" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="374" y="240.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,481) scale(1,-1)">products</text>
+			<text x="374" y="228.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,456) scale(1,-1)">id PK (PRD_)</text>
+			<text x="374" y="219.79999999999998" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,439) scale(1,-1)">price CK&gt;0</text>
+			<text x="374" y="211.39999999999998" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,422) scale(1,-1)">merchant_id FK</text>
+			<rect x="6" y="84" width="104" height="52.599999999999994" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="6" y="123.6" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="10" y="127.1" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,254) scale(1,-1)">fraud_predictions</text>
+			<text x="10" y="114.6" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,229) scale(1,-1)">transaction_id FK</text>
+			<text x="10" y="106.19999999999999" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,212) scale(1,-1)">model_version_id FK</text>
+			<text x="10" y="97.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,195) scale(1,-1)">probability CK</text>
+			<text x="10" y="89.39999999999999" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,178) scale(1,-1)">shap, features JSON</text>
+			<rect x="6" y="12" width="104" height="44.2" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="6" y="43.2" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="10" y="46.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,93) scale(1,-1)">model_versions</text>
+			<text x="10" y="34.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,68) scale(1,-1)">version+algo UQ</text>
+			<text x="10" y="25.800000000000004" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,51) scale(1,-1)">metrics JSON</text>
+			<text x="10" y="17.400000000000002" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,34) scale(1,-1)">is_primary</text>
+			<rect x="254" y="100" width="110" height="69.4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="254" y="156.4" width="110" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="258" y="159.9" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,319) scale(1,-1)">paypal_orders</text>
+			<text x="258" y="147.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,294) scale(1,-1)">paypal_order_id UQ</text>
+			<text x="258" y="139.0" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,278) scale(1,-1)">transaction_id FK UQ</text>
+			<text x="258" y="130.6" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,261) scale(1,-1)">user_id FK</text>
+			<text x="258" y="122.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,244) scale(1,-1)">paypal_status</text>
+			<text x="258" y="113.80000000000001" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,227) scale(1,-1)">sentinel_status</text>
+			<text x="258" y="105.4" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,210) scale(1,-1)">capture_state, id UQ</text>
+			<rect x="372" y="110" width="104" height="44.19999999999999" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="372" y="141.2" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="376" y="144.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,289) scale(1,-1)">payment_events</text>
+			<text x="376" y="132.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,264) scale(1,-1)">paypal_order_id</text>
+			<text x="376" y="123.79999999999998" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,247) scale(1,-1)">webhook_event_id UQ</text>
+			<text x="376" y="115.39999999999999" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,230) scale(1,-1)">payload JSON</text>
+			<rect x="126" y="84" width="116" height="44.19999999999999" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="126" y="115.19999999999999" width="116" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="130" y="118.69999999999999" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,237) scale(1,-1)">investigations</text>
+			<text x="130" y="106.19999999999999" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,212) scale(1,-1)">id PK (INV_)</text>
+			<text x="130" y="97.79999999999998" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,195) scale(1,-1)">transaction_id FK</text>
+			<text x="130" y="89.39999999999999" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,178) scale(1,-1)">steps, report JSON</text>
+			<rect x="126" y="12" width="116" height="44.2" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="126" y="43.2" width="116" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="130" y="46.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,93) scale(1,-1)">investigation_evidence</text>
+			<text x="130" y="34.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,68) scale(1,-1)">investigation_id FK</text>
+			<text x="130" y="25.800000000000004" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,51) scale(1,-1)">evidence_key E1..</text>
+			<text x="130" y="17.400000000000002" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,34) scale(1,-1)">severity, summary</text>
+			<rect x="254" y="12" width="110" height="44.2" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="254" y="43.2" width="110" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="258" y="46.7" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,93) scale(1,-1)">reviewer_decisions</text>
+			<text x="258" y="34.2" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,68) scale(1,-1)">transaction_id FK</text>
+			<text x="258" y="25.800000000000004" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,51) scale(1,-1)">reviewer_id FK</text>
+			<text x="258" y="17.400000000000002" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,34) scale(1,-1)">decision CK</text>
+			<rect x="372" y="30" width="104" height="52.599999999999994" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="372" y="69.6" width="104" height="13.0" style="stroke: rgb(4%,10%,20%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(4%,10%,20%); fill-rule: evenodd;"/>
+			<text x="376" y="73.1" style="font-family: Body-Bold; font-size: 7px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,146) scale(1,-1)">audit_logs</text>
+			<text x="376" y="60.599999999999994" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,121) scale(1,-1)">prev_hash</text>
+			<text x="376" y="52.199999999999996" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,104) scale(1,-1)">hash UQ</text>
+			<text x="376" y="43.8" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,87) scale(1,-1)">actor_id FK</text>
+			<text x="376" y="35.39999999999999" style="font-family: Mono; font-size: 6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,70) scale(1,-1)">details JSON</text>
+			<path d="M 110,312.3 L 126,308.1 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="126" cy="308.1" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 246,308.1 L 230,308.1 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="230" cy="308.1" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 370,308.1 L 350,308.1 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="350" cy="308.1" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 184,241.4 L 178,286 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="178.0" cy="286" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 126,206.7 L 110,213.9 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="110" cy="213.9" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 242,206.7 L 422,286 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="422.0" cy="286" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 422,250.2 L 422,286 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="422.0" cy="286" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 110,110.3 L 126,206.7 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="126" cy="206.7" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 58,84 L 58,56.2 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="58.0" cy="56.2" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 254,134.7 L 242,206.7 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="242" cy="206.7" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 184,128.2 L 184,172 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="184.0" cy="172" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 184,56.2 L 184,84 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="184.0" cy="84" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<path d="M 309,56.2 L 242,206.7 Z" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<circle cx="242" cy="206.7" r="1.8" style="stroke: rgb(0%,66%,80%); stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,66%,80%); fill-rule: evenodd;"/>
+			<text x="316.977783203125" y="4" style="font-family: Body; font-size: 6.3px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,8) scale(1,-1)">Also: graph_entities / graph_relationships, system_settings</text>
+		</g>
+	</g>
+</svg>

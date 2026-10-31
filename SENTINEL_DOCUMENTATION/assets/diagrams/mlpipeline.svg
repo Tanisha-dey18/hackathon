@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="482" height="250" preserveAspectRatio="xMinYMin meet" viewBox="0 0 482 250" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="482" height="250"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-250)" style="clip-path: url(#clip)">
+		<g transform="">
+			<text x="6" y="238" style="font-family: Body-Bold; font-size: 7.5px;fill: rgb(0%,66%,80%); stroke:none;" transform="translate(0,476) scale(1,-1)">TRAINING (seed / retrain)</text>
+			<rect x="4.0" y="176" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="19.137939453125" y="206.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,413) scale(1,-1)">Synthetic</text>
+			<text x="16.490307617187497" y="196.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,393) scale(1,-1)">2,000 labelled</text>
+			<text x="18.825244140624996" y="188.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,376) scale(1,-1)">transactions</text>
+			<rect x="72.5" y="176" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(89%,96%,98%); fill-rule: evenodd;"/>
+			<text x="80.837890625" y="206.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,413) scale(1,-1)">Point-in-time</text>
+			<text x="88.55537109375" y="196.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,393) scale(1,-1)">26 features</text>
+			<text x="86.668408203125" y="188.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,376) scale(1,-1)">FeatureState</text>
+			<path d="M 65,201 L 72.5,201 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="72.5 201, 68.63154 202.6356, 68.63154 199.3644" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="141.0" y="176" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="157.14794921875" y="206.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,413) scale(1,-1)">Cleaning</text>
+			<text x="154.92353515625" y="196.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,393) scale(1,-1)">dedupe, clip,</text>
+			<text x="158.4914794921875" y="188.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,376) scale(1,-1)">keep NaN</text>
+			<path d="M 133.5,201 L 141,201 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="141 201, 137.1315 202.6356, 137.1315 199.3644" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="209.5" y="176" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="232.516357421875" y="206.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,413) scale(1,-1)">Split</text>
+			<text x="228.5903564453125" y="196.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,393) scale(1,-1)">stratified</text>
+			<text x="230.8734375" y="188.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,376) scale(1,-1)">75 / 25</text>
+			<path d="M 202,201 L 209.5,201 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="209.5 201, 205.6315 202.6356, 205.6315 199.3644" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="278.0" y="176" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="284.176025390625" y="206.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,413) scale(1,-1)">Train 4 models</text>
+			<text x="291.563427734375" y="196.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,393) scale(1,-1)">class weights</text>
+			<text x="288.7848388671875" y="188.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,376) scale(1,-1)">median impute</text>
+			<path d="M 270.5,201 L 278,201 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="278 201, 274.1315 202.6356, 274.1315 199.3644" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="346.5" y="176" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="363.10595703125" y="206.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,413) scale(1,-1)">Evaluate</text>
+			<text x="359.22509765625" y="196.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,393) scale(1,-1)">hold-out only</text>
+			<text x="356.7230712890625" y="188.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,376) scale(1,-1)">P/R/F1/ROC/PR</text>
+			<path d="M 339,201 L 346.5,201 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="346.5 201, 342.6315 202.6356, 342.6315 199.3644" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="415.0" y="176" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(89%,96%,98%); fill-rule: evenodd;"/>
+			<text x="435.71435546875" y="206.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,413) scale(1,-1)">Select</text>
+			<text x="428.811181640625" y="196.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,393) scale(1,-1)">best PR-AUC</text>
+			<text x="431.524951171875" y="188.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,376) scale(1,-1)">-&gt; primary</text>
+			<path d="M 407.5,201 L 415,201 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="415 201, 411.1315 202.6356, 411.1315 199.3644" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="140" y="120" width="200" height="40" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="198.620361328125" y="145.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,291) scale(1,-1)">Models trained every run</text>
+			<text x="179.6531982421875" y="135.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,271) scale(1,-1)">Logistic Regression · Random Forest · XGBoost</text>
+			<text x="200.3003173828125" y="127.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,254) scale(1,-1)">Isolation Forest (unsupervised)</text>
+			<path d="M 308.5,176 L 300,160 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="300 160, 303.2593 162.649, 300.3705 164.1836" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="360" y="120" width="118" height="40" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(89%,96%,93%); fill-rule: evenodd;"/>
+			<text x="397.109619140625" y="145.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,291) scale(1,-1)">joblib bundle</text>
+			<text x="391.968896484375" y="135.6" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,271) scale(1,-1)">model_versions rows</text>
+			<text x="383.084326171875" y="127.0" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,254) scale(1,-1)">metrics + SHAP importance</text>
+			<path d="M 445.5,176 L 420,160 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="420 160, 424.1461 160.6706, 422.4075 163.4415" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<text x="6" y="100" style="font-family: Body-Bold; font-size: 7.5px;fill: rgb(0%,66%,80%); stroke:none;" transform="translate(0,200) scale(1,-1)">LIVE SCORING (every assessment)</text>
+			<rect x="4.0" y="34" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="15.3388671875" y="64.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,129) scale(1,-1)">Transaction</text>
+			<text x="10.426098632812497" y="54.599999999999994" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,109) scale(1,-1)">checkout / demo /</text>
+			<text x="22.354296875" y="45.99999999999999" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,91) scale(1,-1)">simulator</text>
+			<rect x="72.5" y="34" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="89.097412109375" y="64.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,129) scale(1,-1)">Features</text>
+			<text x="79.0240478515625" y="54.599999999999994" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,109) scale(1,-1)">same FeatureState</text>
+			<text x="87.83515625" y="45.99999999999999" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,91) scale(1,-1)">history only</text>
+			<path d="M 65,59 L 72.5,59 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="72.5 59, 68.63154 60.63556, 68.63154 57.36444" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="141.0" y="34" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="147.230712890625" y="60.3" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,120) scale(1,-1)">Primary model</text>
+			<text x="149.80712890625" y="50.3" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,100) scale(1,-1)">fraud probability</text>
+			<path d="M 133.5,59 L 141,59 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="141 59, 137.1315 60.63556, 137.1315 57.36444" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="209.5" y="34" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="225.0634765625" y="64.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,129) scale(1,-1)">IsoForest</text>
+			<text x="228.917333984375" y="54.599999999999994" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,109) scale(1,-1)">anomaly</text>
+			<text x="227.1513671875" y="45.99999999999999" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,91) scale(1,-1)">percentile</text>
+			<path d="M 202,59 L 209.5,59 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="209.5 59, 205.6315 60.63556, 205.6315 57.36444" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="278.0" y="34" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="299.245849609375" y="64.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,129) scale(1,-1)">SHAP</text>
+			<text x="294.4370849609375" y="54.599999999999994" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,109) scale(1,-1)">top factors</text>
+			<text x="292.1064697265625" y="45.99999999999999" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,91) scale(1,-1)">as sentences</text>
+			<path d="M 270.5,59 L 278,59 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="278 59, 274.1315 60.63556, 274.1315 57.36444" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="346.5" y="34" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,95%,86%); fill-rule: evenodd;"/>
+			<text x="367.157958984375" y="64.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,129) scale(1,-1)">Policy</text>
+			<text x="360.5834228515625" y="54.599999999999994" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,109) scale(1,-1)">thresholds +</text>
+			<text x="362.76279296875" y="45.99999999999999" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,91) scale(1,-1)">escalations</text>
+			<path d="M 339,59 L 346.5,59 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="346.5 59, 342.6315 60.63556, 342.6315 57.36444" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="415.0" y="34" width="61.0" height="50" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="423.81982421875" y="64.6" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,129) scale(1,-1)">Store + audit</text>
+			<text x="422.9385498046875" y="54.599999999999994" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,109) scale(1,-1)">fraud_predictions</text>
+			<text x="422.824755859375" y="45.99999999999999" style="font-family: Body; font-size: 5.9px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,91) scale(1,-1)">WebSocket event</text>
+			<path d="M 407.5,59 L 415,59 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="415 59, 411.1315 60.63556, 411.1315 57.36444" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<text x="91.78618164062499" y="14" style="font-family: Body; font-size: 6.6px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,28) scale(1,-1)">Graph signals (shared device, flagged destination, cycle) enter at the Policy step and can only raise risk.</text>
+		</g>
+	</g>
+</svg>

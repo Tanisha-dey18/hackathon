@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="482" height="360" preserveAspectRatio="xMinYMin meet" viewBox="0 0 482 360" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="482" height="360"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-360)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="18" y="322" width="210" height="30" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="89.422265625" y="338.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,676) scale(1,-1)">retrieve_transaction</text>
+			<text x="92.0576904296875" y="328.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,656) scale(1,-1)">TransactionHistoryTool</text>
+			<rect x="18" y="284.5" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="88.66640625" y="300.8" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,601) scale(1,-1)">customer_behaviour</text>
+			<text x="90.68310546875" y="290.8" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,581) scale(1,-1)">CustomerBehaviourTool</text>
+			<path d="M 123,322 L 123,314.5 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 314.5, 124.6356 318.3685, 121.3644 318.3685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="18" y="247.0" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="99.78984375" y="263.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,526) scale(1,-1)">ml_prediction</text>
+			<text x="95.8731689453125" y="253.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,506) scale(1,-1)">FraudPredictionTool</text>
+			<path d="M 123,284.5 L 123,277 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 277, 124.6356 280.8685, 121.3644 280.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="18" y="209.5" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="89.4310546875" y="225.8" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,451) scale(1,-1)">graph_investigation</text>
+			<text x="91.5721923828125" y="215.8" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,431) scale(1,-1)">GraphInvestigationTool</text>
+			<path d="M 123,247 L 123,239.5 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 239.5, 124.6356 243.3685, 121.3644 243.3685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="18" y="172.0" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="99.364453125" y="188.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,376) scale(1,-1)">merchant_risk</text>
+			<text x="98.8755126953125" y="178.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,356) scale(1,-1)">MerchantRiskTool</text>
+			<path d="M 123,209.5 L 123,202 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 202, 124.6356 205.8685, 121.3644 205.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="18" y="134.5" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd;"/>
+			<text x="95.5025390625" y="150.8" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,301) scale(1,-1)">collect_evidence</text>
+			<text x="77.3572265625" y="140.8" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,281) scale(1,-1)">EvidenceCollectionTool  -&gt;  E1..En</text>
+			<path d="M 123,172 L 123,164.5 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 164.5, 124.6356 168.3685, 121.3644 168.3685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="18" y="97.0" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,95%,86%); fill-rule: evenodd;"/>
+			<text x="110.45625" y="113.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,226) scale(1,-1)">analyse</text>
+			<text x="63.54882812500001" y="103.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,206) scale(1,-1)">Groq LLM tool-calling  |  RuleEngine fallback</text>
+			<path d="M 123,134.5 L 123,127 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 127, 124.6356 130.8685, 121.3644 130.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="18" y="59.5" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(89%,96%,93%); fill-rule: evenodd;"/>
+			<text x="95.83828125" y="75.8" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,151) scale(1,-1)">generate_report</text>
+			<text x="76.3072998046875" y="65.8" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,131) scale(1,-1)">InvestigationReportTool (validator)</text>
+			<path d="M 123,97 L 123,89.5 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 89.5, 124.6356 93.36846, 121.3644 93.36846" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="18" y="22.0" width="210" height="30.0" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(89%,96%,98%); fill-rule: evenodd;"/>
+			<text x="92.69707031249999" y="38.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,76) scale(1,-1)">route_to_reviewer</text>
+			<text x="94.0369140625" y="28.299999999999997" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,56) scale(1,-1)">ReviewQueue + audit</text>
+			<path d="M 123,59.5 L 123,52 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="123 52, 124.6356 55.86846, 121.3644 55.86846" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="262" y="214" width="214" height="110" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,95%,86%); fill-rule: evenodd;"/>
+			<text x="315.9509765625" y="291.8" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,583) scale(1,-1)">LLM mode (GROQ_API_KEY set)</text>
+			<text x="318.8254150390625" y="281.8" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,563) scale(1,-1)">Case file = transaction + evidence list</text>
+			<text x="305.6097412109375" y="273.2" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,546) scale(1,-1)">Tools: transaction_history, customer_behaviour,</text>
+			<text x="322.4860107421875" y="264.6" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,529) scale(1,-1)">graph_investigation, merchant_risk</text>
+			<text x="317.1902099609375" y="256.0" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,512) scale(1,-1)">New tool results -&gt; new evidence keys</text>
+			<text x="318.8045654296875" y="247.4" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,494) scale(1,-1)">Must call submit_investigation_report</text>
+			<text x="325.9232177734375" y="238.8" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,477) scale(1,-1)">(max 6 rounds, temperature 0.1)</text>
+			<path d="M 262,269 L 228,116 Z" style="stroke: rgb(85%,54%,0%); stroke-linecap: butt; stroke-width: 0.9; stroke-dasharray: 2, 2;"/>
+			<polygon points="228 116, 230.4358 119.4215, 227.2426 120.1311" style="stroke: rgb(85%,54%,0%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(85%,54%,0%); fill-rule: evenodd;"/>
+			<rect x="262" y="108" width="214" height="92" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(89%,96%,93%); fill-rule: evenodd;"/>
+			<text x="333.650390625" y="172.5" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,345) scale(1,-1)">Validator guarantees</text>
+			<text x="312.190771484375" y="162.5" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,325) scale(1,-1)">drop findings without a valid evidence key</text>
+			<text x="312.5258544921875" y="153.9" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,307) scale(1,-1)">normalise recommendation to APPROVE /</text>
+			<text x="313.584716796875" y="145.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,290) scale(1,-1)">HOLD_FOR_REVIEW / REJECT / ESCALATE</text>
+			<text x="310.6553466796875" y="136.7" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,273) scale(1,-1)">no supported findings -&gt; rule-based report</text>
+			<text x="334.8438720703125" y="128.1" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,256) scale(1,-1)">fallback is always labelled</text>
+			<path d="M 262,150 L 228,74.5 Z" style="stroke: rgb(12%,61%,41%); stroke-linecap: butt; stroke-width: 0.9; stroke-dasharray: 2, 2;"/>
+			<polygon points="228 74.5, 231.0798 77.35571, 228.0971 78.69888" style="stroke: rgb(12%,61%,41%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(12%,61%,41%); fill-rule: evenodd;"/>
+			<rect x="262" y="18" width="214" height="74" rx="4" ry="4" style="stroke: rgb(82%,20%,30%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(99%,90%,92%); fill-rule: evenodd;"/>
+			<text x="337.2978515625" y="64.9" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(82%,20%,30%); stroke:none;" transform="translate(0,129) scale(1,-1)">Human in the loop</text>
+			<text x="330.359716796875" y="54.900000000000006" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,109) scale(1,-1)">agent has NO payment tools</text>
+			<text x="311.32998046875" y="46.300000000000004" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,92) scale(1,-1)">reviewer re-enters password + types txn ID</text>
+			<text x="313.48046875" y="37.7" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,75) scale(1,-1)">only APPROVE can trigger PayPal capture</text>
+			<path d="M 262,55 L 228,37 Z" style="stroke: rgb(82%,20%,30%); stroke-linecap: butt; stroke-width: 0.9; stroke-dasharray: 2, 2;"/>
+			<polygon points="228 37, 232.1842 37.36452, 230.6536 40.25549" style="stroke: rgb(82%,20%,30%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(82%,20%,30%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

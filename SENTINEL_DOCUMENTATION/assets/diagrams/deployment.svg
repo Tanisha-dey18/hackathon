@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="482" height="220" preserveAspectRatio="xMinYMin meet" viewBox="0 0 482 220" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="482" height="220"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-220)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="4.0" y="30" width="152.66666666666666" height="186" rx="6" ry="6" style="stroke: rgb(62%,69%,77%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(89%,96%,93%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="12.0" y="204" style="font-family: Body-Bold; font-size: 8px;fill: rgb(0%,66%,80%); stroke:none;" transform="translate(0,408) scale(1,-1)">LOCAL (verified)</text>
+			<rect x="14.0" y="160" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="56.188020833333326" y="177.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,354) scale(1,-1)">Vite dev :5173</text>
+			<text x="58.37422688802083" y="167.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,334) scale(1,-1)">proxies /api, /ws</text>
+			<rect x="14.0" y="120" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="56.96497395833333" y="137.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,274) scale(1,-1)">Uvicorn :8000</text>
+			<text x="64.50401204427084" y="127.30000000000001" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,254) scale(1,-1)">FastAPI app</text>
+			<path d="M 80.333333,160 L 80.333333,152 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="80.33333 152, 81.96889 155.8685, 78.69778 155.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="14.0" y="80" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="69.37337239583333" y="97.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,194) scale(1,-1)">SQLite</text>
+			<text x="53.06055501302083" y="87.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,174) scale(1,-1)">backend/sentinel.db</text>
+			<path d="M 80.333333,120 L 80.333333,112 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="80.33333 112, 81.96889 115.8685, 78.69778 115.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="14.0" y="40" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="61.44563802083333" y="57.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,114) scale(1,-1)">In-memory</text>
+			<text x="65.72520345052084" y="47.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,94) scale(1,-1)">rate limiter</text>
+			<path d="M 80.333333,80 L 80.333333,72 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="80.33333 72, 81.96889 75.86846, 78.69778 75.86846" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="164.66666666666666" y="30" width="152.66666666666666" height="186" rx="6" ry="6" style="stroke: rgb(62%,69%,77%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="172.66666666666666" y="204" style="font-family: Body-Bold; font-size: 8px;fill: rgb(0%,66%,80%); stroke:none;" transform="translate(0,408) scale(1,-1)">DOCKER COMPOSE (configured)</text>
+			<rect x="174.66666666666666" y="160" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="221.1525390625" y="177.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,354) scale(1,-1)">nginx :8080</text>
+			<text x="215.0377685546875" y="167.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,334) scale(1,-1)">static build + proxy</text>
+			<rect x="174.66666666666666" y="120" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="216.4837890625" y="137.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,274) scale(1,-1)">backend :8000</text>
+			<text x="218.5851806640625" y="127.30000000000001" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,254) scale(1,-1)">python:3.13-slim</text>
+			<path d="M 241,160 L 241,152 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="241 152, 242.6356 155.8685, 239.3644 155.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="174.66666666666666" y="80" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="221.2720703125" y="97.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,194) scale(1,-1)">postgres:16</text>
+			<text x="220.707373046875" y="87.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,174) scale(1,-1)">volume pgdata</text>
+			<path d="M 241,120 L 241,112 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="241 112, 242.6356 115.8685, 239.3644 115.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="174.66666666666666" y="40" width="132.66666666666666" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="229.7376953125" y="57.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,114) scale(1,-1)">redis:7</text>
+			<text x="227.7530517578125" y="47.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,94) scale(1,-1)">rate limits</text>
+			<path d="M 241,80 L 241,72 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="241 72, 242.6356 75.86846, 239.3644 75.86846" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="325.3333333333333" y="30" width="152.66666666666669" height="186" rx="6" ry="6" style="stroke: rgb(62%,69%,77%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(94%,96%,98%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="333.3333333333333" y="204" style="font-family: Body-Bold; font-size: 8px;fill: rgb(0%,66%,80%); stroke:none;" transform="translate(0,408) scale(1,-1)">RENDER BLUEPRINT (configured)</text>
+			<rect x="335.3333333333333" y="160" width="132.66666666666669" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="385.21002604166665" y="177.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,354) scale(1,-1)">Static site</text>
+			<text x="384.40765787760415" y="167.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,334) scale(1,-1)">sentinel-web</text>
+			<rect x="335.3333333333333" y="120" width="132.66666666666669" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="369.03990885416664" y="137.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,274) scale(1,-1)">Docker web service</text>
+			<text x="385.9162760416666" y="127.30000000000001" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,254) scale(1,-1)">sentinel-api</text>
+			<path d="M 401.666667,160 L 401.666667,152 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="401.6667 152, 403.3022 155.8685, 400.0311 155.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="335.3333333333333" y="80" width="132.66666666666669" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="365.1762369791666" y="97.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,194) scale(1,-1)">Managed PostgreSQL</text>
+			<text x="386.41070963541665" y="87.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,174) scale(1,-1)">sentinel-db</text>
+			<path d="M 401.666667,120 L 401.666667,112 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="401.6667 112, 403.3022 115.8685, 400.0311 115.8685" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="335.3333333333333" y="40" width="132.66666666666669" height="32" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="383.00397135416665" y="57.3" style="font-family: Body-Bold; font-size: 7.2px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,114) scale(1,-1)">Env secrets</text>
+			<text x="377.66727701822913" y="47.3" style="font-family: Body; font-size: 6.1px;fill: rgb(35%,41%,50%); stroke:none;" transform="translate(0,94) scale(1,-1)">PayPal, Groq, JWT</text>
+			<path d="M 401.666667,80 L 401.666667,72 Z" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<polygon points="401.6667 72, 403.3022 75.86846, 400.0311 75.86846" style="stroke: rgb(35%,41%,50%); stroke-linecap: butt; stroke-width: 0.3; fill: rgb(35%,41%,50%); fill-rule: evenodd;"/>
+			<rect x="120" y="2" width="242" height="22" rx="4" ry="4" style="stroke: rgb(8%,18%,35%); stroke-linecap: butt; stroke-width: 0.8; fill: rgb(100%,95%,86%); fill-rule: evenodd;"/>
+			<text x="135.66162109375" y="10.0" style="font-family: Body-Bold; font-size: 7px;fill: rgb(4%,10%,20%); stroke:none;" transform="translate(0,20) scale(1,-1)">PayPal Sandbox API + optional Groq API (HTTPS from backend)</text>
+		</g>
+	</g>
+</svg>
