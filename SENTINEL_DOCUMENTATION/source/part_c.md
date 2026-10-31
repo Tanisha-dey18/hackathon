@@ -82,7 +82,7 @@ Compares the four models, marks the primary, shows confusion matrices and ROC / 
 
 [[IMG:12_audit_centre|Audit Centre: hash-chained log of every action.]]
 
-The audit log can be filtered by action or entity ID. "Verify hash chain" recomputes every hash; at capture time it reported "Chain intact: 23 entries verified".
+The audit log can be filtered by action or entity ID. "Verify hash chain" recomputes every hash; at capture time it reported "Chain intact: 18 entries verified".
 
 [[IMG:13_settings|Settings: integration status and the risk policy editor.]]
 
@@ -99,7 +99,7 @@ Scenarios are launched from the Command Centre. **"Run risk pipeline"** sends a 
 | Initial conditions | Ava Thompson (CUS_0001), San Francisco, 22 prior purchases averaging about $55, always on her laptop. |
 | User action | Buys a Ceramic Pour-Over Set ($48) and Single-Origin Sampler ($28): $76.00, same laptop, at home. |
 | Backend processing | Transaction created, 26 features computed, prediction stored, policy applied. |
-| ML analysis | Fraud probability 0.006, LOW. No escalation rules triggered. |
+| ML analysis | Fraud probability 0.000, LOW. No escalation rules triggered. |
 | Graph analysis | No shared devices, cycles or flagged destinations. |
 | AI investigation | Not triggered (LOW). |
 | Payment workflow | Status CLEARED. Through PayPal checkout, Sentinel would call capture automatically. |
@@ -111,7 +111,7 @@ Scenarios are launched from the Command Centre. **"Run risk pipeline"** sends a 
 |---|---|
 | Initial conditions | Ben Carter (CUS_0002), Chicago, 20 prior purchases averaging about $38. |
 | User action | Buys a Vector 14" Ultrabook, $1,849.00, from a device he has never used. |
-| ML analysis | Fraud probability 0.098 (would be LOW on its own). Anomaly percentile 0.955. Top SHAP factors: transaction amount $1,849.00; amount is 43.4x the customer's historical average; first time this customer has used this device. |
+| ML analysis | Fraud probability 0.066 (would be LOW on its own). Anomaly percentile 0.954. Top SHAP factors: transaction amount $1,849.00; amount is 43.4x the customer's historical average; first time this customer has used this device. |
 | Policy | "Amount is 43.4x customer average (>= 10.0x) -> at least MEDIUM". |
 | Graph analysis | Nothing suspicious. |
 | AI investigation | Not auto-triggered at MEDIUM (configurable); can be started with INVESTIGATE. |
@@ -126,10 +126,10 @@ This scenario shows why policy rules complement the model: the model, trained on
 |---|---|
 | Initial conditions | Cara Novak (CUS_0003) is part of a 9-account cluster; the emulator device DEV_0147 is shared by 4 accounts; the cluster sent money to flagged wallets DST_MULE_01 and DST_MULE_02. |
 | User action | Buys a $500 Universal Gift Card (VaultGift Digital, high-risk category) on the emulator device. |
-| ML analysis | Fraud probability 0.313, MEDIUM by threshold. Anomaly percentile 0.950. |
+| ML analysis | Fraud probability 0.333, MEDIUM by threshold. Anomaly percentile 0.947. |
 | Graph analysis | "Graph policy: device shared by 4 accounts -> at least HIGH". Graph risk score 0.997. |
-| AI investigation | Started automatically. 9 evidence items, 4 high severity; deterministic fallback report (Groq not configured); recommendation REJECT; 6 evidence-backed findings (Part 9.7). |
-| Human decision | Reviewer re-authenticated, typed the transaction ID and rejected: "Shared emulator device with 4 ring accounts and flagged mule destination (E6, E7)." |
+| AI investigation | Started automatically. 8 evidence items, 4 high severity; deterministic fallback report (Groq not configured); recommendation REJECT; 5 evidence-backed findings (Part 9.7). |
+| Human decision | Reviewer re-authenticated, typed the transaction ID and rejected: "Shared emulator device with 4 ring accounts and flagged mule destination (E5, E6)." |
 | Payment workflow | Transaction REJECTED. Through PayPal checkout the order would remain APPROVED and never be captured. |
 | Audit trail | TRANSACTION_CREATED, RISK_ASSESSED, RISK_POLICY_APPLIED, INVESTIGATION_STARTED, INVESTIGATION_COMPLETED, REVIEW_DECISION. |
 
@@ -139,14 +139,15 @@ This is the clearest demonstration of the project's thesis: the transaction look
 
 ## 15.1 Automated test suite
 
-The backend has 24 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
+The backend has 25 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
 
-Latest run: **24 passed, 0 failed (34.7 s)**.
+Latest run: **25 passed, 0 failed (32.9 s)**.
 
 | Test | Area | Checks |
 |---|---|---|
 | test_models_trained_with_honest_metrics | ML evaluation | All 4 models trained; metrics in [0,1]; confusion matrix sums to test rows; primary has best PR-AUC |
 | test_ml_prediction_structure | ML prediction | Probability and anomaly in [0,1]; SHAP for every feature; positive top factors; missing values kept as null |
+| test_synthetic_world_is_independent_of_seed_time | Reproducibility | Same data whatever day or time the database is seeded |
 | test_risk_classification_policy | Risk classification | Threshold mapping; escalation never lowers risk |
 | test_transaction_creation_and_assessment | API | 401 unauthenticated, 403 shopper; risk payload; CLEARED status; audit entry; 422 on negative amount |
 | test_anomalous_amount_escalates | Risk policy | Demo B is MEDIUM or higher and held; amount factor present |

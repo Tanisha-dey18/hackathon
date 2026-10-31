@@ -157,9 +157,16 @@ DEMO_PERSONAS = {
 RING_DEVICE_FPS = ["fp-ring-emulator-01", "fp-ring-emulator-02", "fp-ring-emulator-03", "fp-ring-emulator-04"]
 
 
+# The world is generated in a fixed time frame ending here, then shifted by whole days so it ends at
+# the most recent UTC midnight. Generating relative to the wall clock made the data (and every model
+# metric) depend on the time of day the database was seeded.
+REFERENCE_END = datetime(2026, 1, 1, tzinfo=timezone.utc)
+
+
 def generate(now: datetime | None = None) -> SyntheticWorld:
     rng = random.Random(SEED)
-    now = (now or datetime.now(timezone.utc)).replace(microsecond=0)
+    target_end = (now or datetime.now(timezone.utc)).replace(hour=0, minute=0, second=0, microsecond=0)
+    now = REFERENCE_END
     start = now - timedelta(days=90)
 
     def jitter(lat: float, lon: float, d: float = 0.04) -> tuple[float, float]:
@@ -378,6 +385,8 @@ def generate(now: datetime | None = None) -> SyntheticWorld:
     for t in txns:
         t.ts = max(start, min(t.ts, now - timedelta(minutes=5)))
     txns.sort(key=lambda t: t.ts)
+    shift = target_end - REFERENCE_END  # whole days: hours of day and ordering are unchanged
     for i, t in enumerate(txns, start=1):
         t.id = f"TXN_{100000 + i}"
-    return SyntheticWorld(customers, devices, destinations, txns, now)
+        t.ts += shift
+    return SyntheticWorld(customers, devices, destinations, txns, target_end)

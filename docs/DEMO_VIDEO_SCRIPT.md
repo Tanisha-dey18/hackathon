@@ -9,7 +9,7 @@ Everything below uses features that exist in the app. Segment 2 has two versions
 
 ## Before recording
 
-1. **Reset the data** so the numbers match this script. Stop the backend, delete `backend/sentinel.db*` and `backend/model_store/`, then start it again and wait about 60 seconds for seeding.
+1. **Reset the data** so the numbers match this script. Stop the backend, run `powershell -ExecutionPolicy Bypass -File scripts\reset-demo.ps1`, then start the backend again and wait about 60 seconds for seeding. Run each scenario only once before recording, because each run adds history.
 2. Start the frontend. Use a 1440×900 or 1920×1080 browser window at 100% zoom, in a clean profile with no bookmarks bar.
 3. Open two tabs:
    - **Tab 1**: http://localhost:5173/console, signed in as `reviewer@sentinel.dev`.
@@ -46,7 +46,7 @@ Everything below uses features that exist in the app. Segment 2 has two versions
 | | |
 |---|---|
 | On screen | Storefront catalogue, then checkout as Ava showing "PayPal Sandbox is not configured". Then Command Centre → Demo A → **Run risk pipeline**. |
-| Say | "In this recording PayPal Sandbox keys aren't configured, and Sentinel never fakes a payment, so the checkout says so. The same risk engine runs here: Ava's $76 order scores 0.006, low risk, cleared for automatic capture." |
+| Say | "In this recording PayPal Sandbox keys aren't configured, and Sentinel never fakes a payment, so the checkout says so. The same risk engine runs here: Ava's $76 order scores 0.000, low risk, cleared for automatic capture." |
 | Visible result | Result card: LOW, CLEARED. |
 
 ## 0:45–1:15 | Risk scoring and ML explanation (Demo B)
@@ -55,7 +55,7 @@ Everything below uses features that exist in the app. Segment 2 has two versions
 |---|---|
 | On screen | Command Centre → Demo B → **Run risk pipeline** → "Open investigation workspace". |
 | Action | Point at the ML risk panel and the SHAP chart on the left. |
-| Say | "Ben usually spends about thirty-eight dollars. Now he's buying an eighteen-hundred-dollar laptop on a device he's never used. The model alone says 0.098, which is low. But the policy sees the amount is forty-three times his average and raises it to medium, and SHAP shows exactly which features drove the score. The payment is held for verification. Nothing is captured." |
+| Say | "Ben usually spends about thirty-eight dollars. Now he's buying an eighteen-hundred-dollar laptop on a device he's never used. The model alone says 0.066, which is low. But the policy sees the amount is forty-three times his average and raises it to medium, and SHAP shows exactly which features drove the score. The payment is held for verification. Nothing is captured." |
 | Visible result | MEDIUM badge, HELD FOR VERIFICATION, policy note "Amount is 43.4x customer average", SHAP bars. |
 | Tip | Zoom in on the SHAP chart in editing so it's readable. |
 
@@ -64,7 +64,7 @@ Everything below uses features that exist in the app. Segment 2 has two versions
 | | |
 |---|---|
 | On screen | Command Centre → Demo C → **Run risk pipeline** → open the workspace. Hover the red dashed edges in the centre graph and click the DEV_0147 node. |
-| Say | "Cara's $500 gift card looks fairly ordinary to the model, about 0.31. But the graph shows her phone is an emulator shared with three other accounts, and those accounts send money to flagged mule wallets. The graph policy raises this to high." |
+| Say | "Cara's $500 gift card looks fairly ordinary to the model, about 0.33. But the graph shows her phone is an emulator shared with three other accounts, and those accounts send money to flagged mule wallets. The graph policy raises this to high." |
 | Visible result | HIGH badge; red suspicious edges; inspector text "Shared by 4 accounts". |
 | Tip | Optionally show the Network Graph page for two seconds to reveal the whole ring and the circular payment loop. |
 

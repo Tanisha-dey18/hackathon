@@ -55,6 +55,19 @@ def test_ml_prediction_structure(client):
     assert out["features"]["hours_since_prev"] is None  # missing value preserved as null, imputed in pipeline
 
 
+def test_synthetic_world_is_independent_of_seed_time():
+    from datetime import datetime, timedelta, timezone
+
+    from app.seed.synthetic import generate
+
+    a = generate(datetime(2026, 11, 1, 1, tzinfo=timezone.utc))
+    b = generate(datetime(2026, 11, 5, 21, tzinfo=timezone.utc))
+    assert [(t.id, t.customer_id, t.amount, t.ts.hour, t.is_fraud) for t in a.transactions] == \
+           [(t.id, t.customer_id, t.amount, t.ts.hour, t.is_fraud) for t in b.transactions]
+    assert all(tb.ts - ta.ts == timedelta(days=4) for ta, tb in zip(a.transactions, b.transactions))
+    assert max(t.ts for t in a.transactions) < a.now
+
+
 def test_risk_classification_policy():
     p = DEFAULT_POLICY
     assert classify(0.05, p) == "LOW"

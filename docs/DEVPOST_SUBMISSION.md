@@ -46,11 +46,11 @@ PayPal's Orders API separates two moments that most people think of as one: the 
 - **ML**: scikit-learn, XGBoost and SHAP on a deterministic synthetic dataset (2,000 transactions, 142 labelled frauds) with a stratified hold-out set.
 - **Graph**: NetworkX over relationships stored in the database.
 - **Agent**: LangGraph state machine; Groq tool calling when a key is configured, a clearly labelled rule-based fallback otherwise.
-- **Tests**: 24 pytest tests, including the payment safety rules, run against a mock PayPal transport.
+- **Tests**: 25 pytest tests, including the payment safety rules, run against a mock PayPal transport.
 
 ### How we use AI
 
-- **Supervised ML**: Logistic Regression, Random Forest and XGBoost are trained on every run; the best by PR-AUC becomes the primary model. In our current version that is Random Forest (hold-out PR-AUC 0.897 on synthetic data). XGBoost came third, and we report that rather than hiding it.
+- **Supervised ML**: Logistic Regression, Random Forest and XGBoost are trained on every run; the best by PR-AUC becomes the primary model. In our current version that is Random Forest (hold-out PR-AUC 0.914 on synthetic data). XGBoost came third, and we report that rather than hiding it.
 - **Unsupervised ML**: Isolation Forest gives an anomaly percentile that can raise risk.
 - **Explainable AI**: SHAP turns each score into sentences a reviewer can check, such as *"Amount is 43.4x the customer's historical average"*.
 - **Agentic AI**: a LangGraph workflow with seven tools that writes an evidence-cited report. Hallucination control is built in: evidence comes from tools, a validator removes uncited claims, and the agent can only recommend. **[UPDATE IF VERIFIED]** The Groq LLM path is implemented; in our recorded runs the agent used its labelled rule-based fallback because no Groq key was configured.
@@ -91,7 +91,7 @@ Sentinel runs entirely on the PayPal **Sandbox**. It does not access PayPal's in
 
 ### What we learned
 
-Payment safety is mostly about state management and idempotency, not models. The graph caught what the model missed: in our fraud-ring demo, the ML score was only 0.31, and the shared emulator device pushed the payment to HIGH. AI is most useful when it is constrained, cites evidence and leaves irreversible actions to people.
+Payment safety is mostly about state management and idempotency, not models. The graph caught what the model missed: in our fraud-ring demo, the ML score was only 0.33, and the shared emulator device pushed the payment to HIGH. AI is most useful when it is constrained, cites evidence and leaves irreversible actions to people.
 
 ### What's next for Sentinel
 

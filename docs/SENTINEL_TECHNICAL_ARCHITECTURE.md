@@ -166,7 +166,7 @@ flowchart LR
 
 <!-- pdf:DIAGRAM:mlpipeline -->
 
-Training replays history chronologically through the same `FeatureState`, uses a stratified 75/25 split and class weighting, trains four models and selects the primary by hold-out PR-AUC (v1: Random Forest, PR-AUC 0.897 on synthetic data).
+Training replays history chronologically through the same `FeatureState`, uses a stratified 75/25 split and class weighting, trains four models and selects the primary by hold-out PR-AUC (v1: Random Forest, PR-AUC 0.914 on synthetic data).
 
 ## 7. AI agent tool-calling flow
 

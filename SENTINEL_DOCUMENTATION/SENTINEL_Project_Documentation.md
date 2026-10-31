@@ -96,7 +96,7 @@ Digital payments keep growing, and so does the attack surface. The patterns belo
 
 ## 2.2 A realistic hypothetical example
 
-Cara's account has a short purchase history. On a Tuesday afternoon she buys a $500 digital gift card. On its own that is not alarming: the amount is about 1.4 times her average, and she has used this phone before. But that phone is also used by three other accounts, and those accounts have repeatedly sent money to two external wallets that are known to have received funds linked to chargebacks. A model that only looks at Cara's payment sees an ordinary purchase. A system that looks at the relationships sees a likely fraud ring. This exact situation is reproduced as Demo Scenario C (Part 14), where the ML model scored the payment at about 0.31 but the graph policy raised it to HIGH.
+Cara's account has a short purchase history. On a Tuesday afternoon she buys a $500 digital gift card. On its own that is not alarming: the amount is about 1.5 times her average, and she has used this phone before. But that phone is also used by three other accounts, and those accounts have repeatedly sent money to two external wallets that are known to have received funds linked to chargebacks. A model that only looks at Cara's payment sees an ordinary purchase. A system that looks at the relationships sees a likely fraud ring. This exact situation is reproduced as Demo Scenario C (Part 14), where the ML model scored the payment at about 0.33 but the graph policy raised it to HIGH.
 
 ## 2.3 Industry challenges versus what this prototype solves
 
@@ -355,7 +355,7 @@ A transaction's features are computed **only from transactions that happened bef
 
 **Technically:** p(fraud | x) = 1 / (1 + e^-(w·x + b)). The weights are learned by minimising the log-loss with L2 regularisation (C = 0.5). Features are standardised first.
 
-**Advantages:** fast, stable, easy to interpret. **Limitations:** it only draws straight decision boundaries, so interactions (for example "new device AND far away") must be engineered by hand. **Role in Sentinel:** a transparent baseline. In v1 it had the best ROC-AUC (0.952) but lower precision (0.744).
+**Advantages:** fast, stable, easy to interpret. **Limitations:** it only draws straight decision boundaries, so interactions (for example "new device AND far away") must be engineered by hand. **Role in Sentinel:** a transparent baseline. In v1 it had the best ROC-AUC (0.964) but lower precision (0.842).
 
 ### Random Forest
 
@@ -363,7 +363,7 @@ A transaction's features are computed **only from transactions that happened bef
 
 **Technically:** bagging of CART trees (300 trees, min_samples_leaf = 2). The predicted probability is the average of the trees' leaf class proportions. Randomisation reduces variance compared with a single tree.
 
-**Advantages:** captures non-linear interactions, robust to outliers, needs little tuning. **Limitations:** larger model, probabilities are not calibrated, less extrapolation. **Role in Sentinel:** the **primary model in v1**, because it had the highest PR-AUC (0.897).
+**Advantages:** captures non-linear interactions, robust to outliers, needs little tuning. **Limitations:** larger model, probabilities are not calibrated, less extrapolation. **Role in Sentinel:** the **primary model in v1**, because it had the highest PR-AUC (0.914).
 
 ### XGBoost
 
@@ -371,7 +371,7 @@ A transaction's features are computed **only from transactions that happened bef
 
 **Technically:** gradient boosting. Each tree is fitted to the gradient of the log-loss; leaf weights use second-order (Hessian) information; regularisation (`reg_lambda = 1.5`, depth 4, learning rate 0.07, 250 trees, row and column subsampling) controls overfitting. `scale_pos_weight` up-weights fraud cases.
 
-**Advantages:** usually the strongest family on tabular data; handles missing values; fast. **Limitations:** more hyperparameters; can overfit small data. **Role in Sentinel:** trained and evaluated every time; it would be selected automatically if it had the best PR-AUC. In v1 it came third by PR-AUC (0.886), so it was not the primary model. This is reported honestly rather than forcing XGBoost to be primary.
+**Advantages:** usually the strongest family on tabular data; handles missing values; fast. **Limitations:** more hyperparameters; can overfit small data. **Role in Sentinel:** trained and evaluated every time; it would be selected automatically if it had the best PR-AUC. In v1 it came third by PR-AUC (0.903), so it was not the primary model. This is reported honestly rather than forcing XGBoost to be primary.
 
 ### Isolation Forest
 
@@ -383,14 +383,14 @@ A transaction's features are computed **only from transactions that happened bef
 
 ## 7.6 Model selection and evaluation
 
-The primary model is chosen automatically as the supervised model with the highest **PR-AUC** on the hold-out set. All numbers below are the stored results of model version v1 (trained on 1,500 rows, evaluated on 500 rows the models never saw), at threshold 0.5 for the supervised models:
+The primary model is chosen automatically as the supervised model with the highest **PR-AUC** on the hold-out set. All numbers below are the stored results of model version v1 (trained on 1,500 rows, evaluated on 500 rows the models never saw), at threshold 0.5 for the supervised models. Data generation and training are deterministic, so a fresh seed reproduces exactly these numbers:
 
 | Model | Precision | Recall | F1 | ROC-AUC | PR-AUC | TN | FP | FN | TP |
 |---|---|---|---|---|---|---|---|---|---|
-| Random Forest (primary) | 0.941 | 0.889 | 0.914 | 0.939 | 0.897 | 462 | 2 | 4 | 32 |
-| Logistic Regression | 0.744 | 0.889 | 0.810 | 0.952 | 0.893 | 453 | 11 | 4 | 32 |
-| XGBoost | 0.914 | 0.889 | 0.901 | 0.951 | 0.886 | 461 | 3 | 4 | 32 |
-| Isolation Forest (unsupervised) | 0.700 | 0.778 | 0.737 | 0.940 | 0.830 | 452 | 12 | 8 | 28 |
+| Random Forest (primary) | 0.970 | 0.889 | 0.927 | 0.954 | 0.914 | 463 | 1 | 4 | 32 |
+| Logistic Regression | 0.842 | 0.889 | 0.865 | 0.964 | 0.911 | 458 | 6 | 4 | 32 |
+| XGBoost | 0.939 | 0.861 | 0.899 | 0.958 | 0.903 | 462 | 2 | 5 | 31 |
+| Isolation Forest (unsupervised) | 0.849 | 0.778 | 0.812 | 0.944 | 0.862 | 459 | 5 | 8 | 28 |
 
 > These metrics describe performance on synthetic data generated by the project itself. They demonstrate that the pipeline is correct and evaluated honestly; they are not evidence of real-world fraud detection accuracy.
 
@@ -419,16 +419,16 @@ For each payment, positive contributions are converted into sentences a reviewer
 
 | Rank | Feature | Mean abs SHAP |
 |---|---|---|
-| 1 | amount | 0.0799 |
-| 2 | log_amount | 0.0709 |
-| 3 | hour_of_day | 0.0668 |
-| 4 | distance_from_home_km | 0.0650 |
-| 5 | is_night | 0.0428 |
-| 6 | hours_since_prev | 0.0278 |
-| 7 | amount_to_avg_ratio | 0.0209 |
-| 8 | geo_distance_prev_km | 0.0183 |
-| 9 | destination_distinct_customers | 0.0182 |
-| 10 | merchant_risk_score | 0.0154 |
+| 1 | amount | 0.0701 |
+| 2 | log_amount | 0.0698 |
+| 3 | distance_from_home_km | 0.0662 |
+| 4 | hour_of_day | 0.0636 |
+| 5 | is_night | 0.0382 |
+| 6 | hours_since_prev | 0.0311 |
+| 7 | destination_distinct_customers | 0.0211 |
+| 8 | geo_distance_prev_km | 0.0204 |
+| 9 | merchant_risk_score | 0.0182 |
+| 10 | geo_velocity_kmh | 0.0176 |
 
 Note: `hour_of_day` and `is_night` rank highly because the synthetic fraud ring operates at night. That is a property of the synthetic generator and a known limitation (Part 17).
 
@@ -492,7 +492,7 @@ Every transaction writes relationships into two tables: `graph_entities` (nodes)
 
 | Finding | Detail |
 |---|---|
-| Entities / relationships | 2,326 / 8,114 (including demo transactions at time of writing) |
+| Entities / relationships | 2,321 / 8,097 (freshly seeded database) |
 | Shared device DEV_0147 | 4 accounts: CUS_0003, CUS_0091, CUS_0093, CUS_0097 |
 | Shared device DEV_0148 | 3 accounts: CUS_0090, CUS_0094, CUS_0096 |
 | Circular loop | CUS_0081 to CUS_0082 to CUS_0083 to CUS_0080 and back, $16,064.37 in total |
@@ -568,17 +568,17 @@ Capture, refund and rejection are irreversible financial actions, and LLMs can b
 
 | Step | Duration | Result |
 |---|---|---|
-| Retrieve transaction | 28.9 ms | CUS_0003 has 9 transactions; focal TXN_56SIN7VDWC $500.00 |
-| Analyse customer behaviour | 12.7 ms | 8 prior transactions, average $349.12, 2 devices, 0 failures |
-| ML prediction + SHAP | 11.5 ms | random_forest v1 scored 0.313 (final level HIGH); anomaly percentile 0.950 |
-| Graph connections | 706.8 ms | 1 shared device, 1 flagged destination link, suspicious cluster #1 (9 accounts) |
-| Merchant risk | 12.3 ms | VaultGift Digital: risk 0.72, chargeback rate 6.1% |
-| Collect evidence | 6.1 ms | 9 evidence items, 4 high severity |
-| Analysis | 5.1 ms | Deterministic (Groq not configured) |
-| Generate report | 19.3 ms | REJECT, 6 evidence-backed findings |
-| Route to reviewer | 12.1 ms | Recommendation sent to reviewer queue |
+| Retrieve transaction | 15.4 ms | CUS_0003 has 8 transactions; focal TXN_563TG7BVLJ $500.00 |
+| Analyse customer behaviour | 6.1 ms | 7 prior transactions, average $327.57, 2 devices, 0 failures |
+| ML prediction + SHAP | 4.3 ms | random_forest v1 scored 0.333 (final level HIGH); anomaly percentile 0.947 |
+| Graph connections | 3.0 ms | 1 shared device, 1 flagged destination link, suspicious cluster #1 (9 accounts) |
+| Merchant risk | 5.7 ms | VaultGift Digital: risk 0.72, chargeback rate 6.1% |
+| Collect evidence | 1.8 ms | 8 evidence items, 4 high severity |
+| Analysis | 1.5 ms | Deterministic (Groq not configured) |
+| Generate report | 9.5 ms | REJECT, 5 evidence-backed findings |
+| Route to reviewer | 5.7 ms | Recommendation sent to reviewer queue |
 
-The graph step includes building the graph engine cache. The reviewer then rejected the payment with the reason *"Shared emulator device with 4 ring accounts and flagged mule destination (E6, E7)."*
+The graph step reads the cached graph engine, which is updated incrementally, so it takes milliseconds. The reviewer then rejected the payment with the reason *"Shared emulator device with 4 ring accounts and flagged mule destination (E5, E6)."*
 
 # PART 10: PayPal Integration
 
@@ -746,14 +746,14 @@ Response (shape from `order_view`; values from the test suite, which uses the mo
 **Structured risk result** (`POST /api/risk/assess`, abridged):
 
 ```
-{"transaction_id": "TXN_56R036JSE2", "fraud_probability": 0.0983,
- "anomaly_score": 0.9547, "risk_level": "MEDIUM", "model_version": "v1",
+{"transaction_id": "TXN_563TGV4IBG", "fraud_probability": 0.0661,
+ "anomaly_score": 0.954, "risk_level": "MEDIUM", "model_version": "v1",
  "model_algorithm": "random_forest",
  "top_risk_factors": ["Transaction amount $1,849.00",
-   "Amount is 43.4x the customer's historical average",
-   "First time this customer has used this device"],
+   "First time this customer has used this device",
+   "Amount is 43.4x the customer's historical average"],
  "recommended_action": "ADDITIONAL_VERIFICATION",
- "policy_notes": ["Model score 0.098 (random_forest v1) -> LOW",
+ "policy_notes": ["Model score 0.066 (random_forest v1) -> LOW",
    "Amount is 43.4x customer average (>= 10.0x) -> at least MEDIUM"]}
 ```
 
@@ -761,7 +761,7 @@ Response (shape from `order_view`; values from the test suite, which uses the mo
 
 ```
 {"decision": "REJECT",
- "reason": "Shared emulator device with 4 ring accounts and flagged mule destination (E6, E7).",
+ "reason": "Shared emulator device with 4 ring accounts and flagged mule destination (E5, E6).",
  "password": "********", "confirm_transaction_id": "TXN_56SIN7VDWC"}
 ```
 
@@ -905,7 +905,7 @@ Compares the four models, marks the primary, shows confusion matrices and ROC / 
 
 *Audit Centre: hash-chained log of every action.*
 
-The audit log can be filtered by action or entity ID. "Verify hash chain" recomputes every hash; at capture time it reported "Chain intact: 23 entries verified".
+The audit log can be filtered by action or entity ID. "Verify hash chain" recomputes every hash; at capture time it reported "Chain intact: 18 entries verified".
 
 ![Settings: integration status and the risk policy editor.](assets/13_settings.jpg)
 
@@ -924,7 +924,7 @@ Scenarios are launched from the Command Centre. **"Run risk pipeline"** sends a 
 | Initial conditions | Ava Thompson (CUS_0001), San Francisco, 22 prior purchases averaging about $55, always on her laptop. |
 | User action | Buys a Ceramic Pour-Over Set ($48) and Single-Origin Sampler ($28): $76.00, same laptop, at home. |
 | Backend processing | Transaction created, 26 features computed, prediction stored, policy applied. |
-| ML analysis | Fraud probability 0.006, LOW. No escalation rules triggered. |
+| ML analysis | Fraud probability 0.000, LOW. No escalation rules triggered. |
 | Graph analysis | No shared devices, cycles or flagged destinations. |
 | AI investigation | Not triggered (LOW). |
 | Payment workflow | Status CLEARED. Through PayPal checkout, Sentinel would call capture automatically. |
@@ -936,7 +936,7 @@ Scenarios are launched from the Command Centre. **"Run risk pipeline"** sends a 
 |---|---|
 | Initial conditions | Ben Carter (CUS_0002), Chicago, 20 prior purchases averaging about $38. |
 | User action | Buys a Vector 14" Ultrabook, $1,849.00, from a device he has never used. |
-| ML analysis | Fraud probability 0.098 (would be LOW on its own). Anomaly percentile 0.955. Top SHAP factors: transaction amount $1,849.00; amount is 43.4x the customer's historical average; first time this customer has used this device. |
+| ML analysis | Fraud probability 0.066 (would be LOW on its own). Anomaly percentile 0.954. Top SHAP factors: transaction amount $1,849.00; amount is 43.4x the customer's historical average; first time this customer has used this device. |
 | Policy | "Amount is 43.4x customer average (>= 10.0x) -> at least MEDIUM". |
 | Graph analysis | Nothing suspicious. |
 | AI investigation | Not auto-triggered at MEDIUM (configurable); can be started with INVESTIGATE. |
@@ -951,10 +951,10 @@ This scenario shows why policy rules complement the model: the model, trained on
 |---|---|
 | Initial conditions | Cara Novak (CUS_0003) is part of a 9-account cluster; the emulator device DEV_0147 is shared by 4 accounts; the cluster sent money to flagged wallets DST_MULE_01 and DST_MULE_02. |
 | User action | Buys a $500 Universal Gift Card (VaultGift Digital, high-risk category) on the emulator device. |
-| ML analysis | Fraud probability 0.313, MEDIUM by threshold. Anomaly percentile 0.950. |
+| ML analysis | Fraud probability 0.333, MEDIUM by threshold. Anomaly percentile 0.947. |
 | Graph analysis | "Graph policy: device shared by 4 accounts -> at least HIGH". Graph risk score 0.997. |
-| AI investigation | Started automatically. 9 evidence items, 4 high severity; deterministic fallback report (Groq not configured); recommendation REJECT; 6 evidence-backed findings (Part 9.7). |
-| Human decision | Reviewer re-authenticated, typed the transaction ID and rejected: "Shared emulator device with 4 ring accounts and flagged mule destination (E6, E7)." |
+| AI investigation | Started automatically. 8 evidence items, 4 high severity; deterministic fallback report (Groq not configured); recommendation REJECT; 5 evidence-backed findings (Part 9.7). |
+| Human decision | Reviewer re-authenticated, typed the transaction ID and rejected: "Shared emulator device with 4 ring accounts and flagged mule destination (E5, E6)." |
 | Payment workflow | Transaction REJECTED. Through PayPal checkout the order would remain APPROVED and never be captured. |
 | Audit trail | TRANSACTION_CREATED, RISK_ASSESSED, RISK_POLICY_APPLIED, INVESTIGATION_STARTED, INVESTIGATION_COMPLETED, REVIEW_DECISION. |
 
@@ -964,14 +964,15 @@ This is the clearest demonstration of the project's thesis: the transaction look
 
 ## 15.1 Automated test suite
 
-The backend has 24 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
+The backend has 25 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
 
-Latest run: **24 passed, 0 failed (34.7 s)**.
+Latest run: **25 passed, 0 failed (32.9 s)**.
 
 | Test | Area | Checks |
 |---|---|---|
 | test_models_trained_with_honest_metrics | ML evaluation | All 4 models trained; metrics in [0,1]; confusion matrix sums to test rows; primary has best PR-AUC |
 | test_ml_prediction_structure | ML prediction | Probability and anomaly in [0,1]; SHAP for every feature; positive top factors; missing values kept as null |
+| test_synthetic_world_is_independent_of_seed_time | Reproducibility | Same data whatever day or time the database is seeded |
 | test_risk_classification_policy | Risk classification | Threshold mapping; escalation never lowers risk |
 | test_transaction_creation_and_assessment | API | 401 unauthenticated, 403 shopper; risk payload; CLEARED status; audit entry; 422 on negative amount |
 | test_anomalous_amount_escalates | Risk policy | Demo B is MEDIUM or higher and held; amount factor present |
@@ -1096,7 +1097,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q6. What makes Sentinel different from a normal fraud filter?
 **Short answer:** It looks at relationships between accounts, explains itself and keeps a human in control of irreversible actions.
-**Deeper explanation:** In our demo C the model scored a payment at about 0.31, but the graph showed a shared emulator device and mule wallets, and the system raised it to HIGH.
+**Deeper explanation:** In our demo C the model scored a payment at about 0.33, but the graph showed a shared emulator device and mule wallets, and the system raised it to HIGH.
 
 ### Q7. Where is the AI?
 **Short answer:** In three places: the ML risk model, the anomaly detector and the investigation agent.
@@ -1127,8 +1128,8 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 **Deeper explanation:** Holding gives a human the chance to verify. The policy is configurable if a business wants a stricter setup.
 
 ### Q14. How do you know it works?
-**Short answer:** 24 automated tests pass, and the models are evaluated on held-out data.
-**Deeper explanation:** Hold-out PR-AUC of the primary model is 0.897 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
+**Short answer:** 25 automated tests pass, and the models are evaluated on held-out data.
+**Deeper explanation:** Hold-out PR-AUC of the primary model is 0.914 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
 
 ### Q15. What happens if PayPal is down?
 **Short answer:** Sentinel returns a clear error with PayPal's debug ID and never pretends a payment succeeded.
@@ -1280,7 +1281,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q51. Why did you choose XGBoost?
 **Short answer:** It is a strong default for tabular data, but Sentinel does not force it: the primary model is whichever has the best PR-AUC.
-**Deeper explanation:** In v1 Random Forest won (0.897) over Logistic Regression (0.893) and XGBoost (0.886). We report that honestly.
+**Deeper explanation:** In v1 Random Forest won (0.914) narrowly over Logistic Regression (0.911) and XGBoost (0.903). We report that honestly.
 **Follow-up:** Why might XGBoost lose here? The data is small (1,500 training rows), and bagging is more stable on small, noisy data.
 
 ### Q52. Why is accuracy insufficient for fraud detection?
@@ -1289,11 +1290,11 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q53. What is the difference between precision and recall?
 **Short answer:** Precision is how many flagged payments are really fraud; recall is how much fraud we flag.
-**Deeper explanation:** Raising the threshold usually increases precision and lowers recall. The primary model had precision 0.941 and recall 0.889 at 0.5.
+**Deeper explanation:** Raising the threshold usually increases precision and lowers recall. The primary model had precision 0.970 and recall 0.889 at 0.5.
 
 ### Q54. Why PR-AUC over ROC-AUC for selection?
 **Short answer:** PR-AUC reflects performance on the rare class; ROC-AUC can look good because there are so many true negatives.
-**Deeper explanation:** Logistic Regression had the best ROC-AUC (0.952) but much lower precision (0.744).
+**Deeper explanation:** Logistic Regression had the best ROC-AUC (0.964) but lower precision (0.842).
 
 ### Q55. How did you handle class imbalance?
 **Short answer:** Class weights for LR and RF, `scale_pos_weight` for XGBoost, and stratified splitting.
@@ -1313,7 +1314,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q59. What is Isolation Forest used for?
 **Short answer:** An unsupervised anomaly percentile used by the policy and shown to reviewers.
-**Deeper explanation:** It is trained without labels; its PR-AUC (0.830) is reported for transparency.
+**Deeper explanation:** It is trained without labels; its PR-AUC (0.862) is reported for transparency.
 
 ### Q60. What is SHAP?
 **Short answer:** A method that splits a prediction into per-feature contributions based on Shapley values.
@@ -1539,9 +1540,9 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 Sentinel is a payment layer on top of PayPal. Our demo shop creates a real PayPal Sandbox order on the server. After the buyer approves, and before we capture, we fetch the order from PayPal, check the amount and that it belongs to the shopper, and score it. The score uses 26 features computed only from earlier transactions, from a Random Forest that was picked automatically because it had the best PR-AUC on held-out data, plus an Isolation Forest for anomalies and SHAP to explain the result.
 
-Then the graph. We store every relationship between customers, devices, wallets and merchants, and NetworkX finds shared devices, money loops and clusters. In our third demo the model only gave about 0.31, but the device was shared with three other accounts paying flagged wallets, so the policy raised it to HIGH.
+Then the graph. We store every relationship between customers, devices, wallets and merchants, and NetworkX finds shared devices, money loops and clusters. In our third demo the model only gave about 0.33, but the device was shared with three other accounts paying flagged wallets, so the policy raised it to HIGH.
 
-High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 24 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
+High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 25 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
 
 ## 20.3 Five-minute technical explanation
 
@@ -1553,7 +1554,7 @@ High-risk payments get an AI investigation built with LangGraph: seven tools col
 
 **Payment lifecycle:** create-order recalculates prices on the server, creates a transaction and calls Orders v2 with intent CAPTURE, using the client's Idempotency-Key as PayPal-Request-Id. On capture-order we GET the order, require APPROVED, match amount, currency, reference and owner, then run risk. PayPal status is only written from PayPal responses; Sentinel status is separate. Capture uses a compare-and-set update so only one request proceeds, plus a stable PayPal-Request-Id and reconciliation if PayPal says it was already captured. The capture function re-checks authorisation: LOW risk, or a stored APPROVE decision.
 
-**ML:** a deterministic synthetic world with labelled fraud patterns plus deliberate noise. Point-in-time features via one FeatureState class for training and serving. Stratified 75/25 split, class weights, four models, metrics on the hold-out only. Random Forest won with PR-AUC 0.897; XGBoost was third. SHAP gives per-payment explanations.
+**ML:** a deterministic synthetic world with labelled fraud patterns plus deliberate noise. Point-in-time features via one FeatureState class for training and serving. Stratified 75/25 split, class weights, four models, metrics on the hold-out only. Random Forest won with PR-AUC 0.914; XGBoost was third. SHAP gives per-payment explanations.
 
 **Policy:** thresholds map to LOW, MEDIUM, HIGH or CRITICAL; escalations for anomaly, 10x amount and graph signals only raise risk.
 
@@ -1561,11 +1562,11 @@ High-risk payments get an AI investigation built with LangGraph: seven tools col
 
 **Agent:** a nine-node LangGraph workflow. Evidence is generated deterministically from tool outputs; Groq can call more tools and must submit a structured report; a validator drops uncited findings; if Groq isn't available there's a labelled rule-based fallback.
 
-**Audit and tests:** a SHA-256 hash-chained audit log with verification. 24 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
+**Audit and tests:** a SHA-256 hash-chained audit log with verification. 25 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
 
 ## 20.4 Resume description
 
-**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.897 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 24 automated tests.
+**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.914 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 25 automated tests.
 
 ## 20.5 LinkedIn description
 
@@ -1608,11 +1609,11 @@ Fraud checks usually score one payment at a time and give no reasons. Organised 
 
 | Item | Result |
 |---|---|
-| Primary model (selected by hold-out PR-AUC) | Random Forest: precision 0.941, recall 0.889, F1 0.914, ROC-AUC 0.939, PR-AUC 0.897 (500-row test set, synthetic) |
-| Other models | XGBoost PR-AUC 0.886; Logistic Regression 0.893; Isolation Forest 0.830 |
+| Primary model (selected by hold-out PR-AUC) | Random Forest: precision 0.970, recall 0.889, F1 0.927, ROC-AUC 0.954, PR-AUC 0.914 (500-row test set, synthetic) |
+| Other models | XGBoost PR-AUC 0.903; Logistic Regression 0.911; Isolation Forest 0.862 |
 | Graph findings | 2 shared devices, 1 four-account money loop ($16,064), 2 flagged mule wallets, 4 suspicious clusters |
-| Demo C | ML score 0.313 alone; graph raised it to HIGH; agent recommended REJECT with 6 evidence-backed findings |
-| Automated tests | 24 passed, 0 failed |
+| Demo C | ML score 0.333 alone; graph raised it to HIGH; agent recommended REJECT with 5 evidence-backed findings |
+| Automated tests | 25 passed, 0 failed |
 
 ## What makes it different
 
@@ -1629,4 +1630,4 @@ React, TypeScript, Vite, Tailwind, Recharts, React Flow, AG Grid, TanStack Query
 
 | Verified | Not yet verified |
 |---|---|
-| Full app running locally; 24 tests; UI walkthrough; hold-out ML metrics; PostgreSQL DDL generation | Live PayPal Sandbox capture (no credentials on build machine); Groq LLM path (fallback used); Docker/Render runtime |
+| Full app running locally; 25 tests; UI walkthrough; hold-out ML metrics; PostgreSQL DDL generation | Live PayPal Sandbox capture (no credentials on build machine); Groq LLM path (fallback used); Docker/Render runtime |

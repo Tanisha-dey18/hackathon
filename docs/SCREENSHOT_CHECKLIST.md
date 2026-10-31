@@ -27,7 +27,7 @@ Only screens that exist in the app are listed. ✅ means a genuine capture alrea
 | 19 | AI Investigations list | `/console/investigations` | Pipeline + runs | ✅ `09_investigations.jpg` |
 | 20 | PayPal Payments with real orders | `/console/payments` | Orders with PayPal vs Sentinel status, events with debug IDs | ⬜ (current capture `10_paypal_payments.jpg` is empty) |
 | 21 | Model Analytics | `/console/models` | Metrics table, ROC/PR curves | ✅ `11_model_analytics.jpg` |
-| 22 | Audit trail | `/console/audit` → Verify hash chain | "Chain intact" banner + log | ✅ `12_audit_centre.jpg` (retake with the banner visible) |
+| 22 | Audit trail | `/console/audit` → Verify hash chain | "Chain intact" banner + log | ✅ `12_audit_centre.jpg` |
 | 23 | Settings | `/console/settings` | Integration status, risk policy | ✅ `13_settings.jpg` |
 | 24 | Shopper order history | `/shop/orders` as a shopper | Orders with both statuses | ⬜ **needs Sandbox orders** |
 

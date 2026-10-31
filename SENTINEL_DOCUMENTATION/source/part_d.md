@@ -27,7 +27,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q6. What makes Sentinel different from a normal fraud filter?
 **Short answer:** It looks at relationships between accounts, explains itself and keeps a human in control of irreversible actions.
-**Deeper explanation:** In our demo C the model scored a payment at about 0.31, but the graph showed a shared emulator device and mule wallets, and the system raised it to HIGH.
+**Deeper explanation:** In our demo C the model scored a payment at about 0.33, but the graph showed a shared emulator device and mule wallets, and the system raised it to HIGH.
 
 ### Q7. Where is the AI?
 **Short answer:** In three places: the ML risk model, the anomaly detector and the investigation agent.
@@ -58,8 +58,8 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 **Deeper explanation:** Holding gives a human the chance to verify. The policy is configurable if a business wants a stricter setup.
 
 ### Q14. How do you know it works?
-**Short answer:** 24 automated tests pass, and the models are evaluated on held-out data.
-**Deeper explanation:** Hold-out PR-AUC of the primary model is 0.897 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
+**Short answer:** 25 automated tests pass, and the models are evaluated on held-out data.
+**Deeper explanation:** Hold-out PR-AUC of the primary model is 0.914 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
 
 ### Q15. What happens if PayPal is down?
 **Short answer:** Sentinel returns a clear error with PayPal's debug ID and never pretends a payment succeeded.
@@ -211,7 +211,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q51. Why did you choose XGBoost?
 **Short answer:** It is a strong default for tabular data, but Sentinel does not force it: the primary model is whichever has the best PR-AUC.
-**Deeper explanation:** In v1 Random Forest won (0.897) over Logistic Regression (0.893) and XGBoost (0.886). We report that honestly.
+**Deeper explanation:** In v1 Random Forest won (0.914) narrowly over Logistic Regression (0.911) and XGBoost (0.903). We report that honestly.
 **Follow-up:** Why might XGBoost lose here? The data is small (1,500 training rows), and bagging is more stable on small, noisy data.
 
 ### Q52. Why is accuracy insufficient for fraud detection?
@@ -220,11 +220,11 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q53. What is the difference between precision and recall?
 **Short answer:** Precision is how many flagged payments are really fraud; recall is how much fraud we flag.
-**Deeper explanation:** Raising the threshold usually increases precision and lowers recall. The primary model had precision 0.941 and recall 0.889 at 0.5.
+**Deeper explanation:** Raising the threshold usually increases precision and lowers recall. The primary model had precision 0.970 and recall 0.889 at 0.5.
 
 ### Q54. Why PR-AUC over ROC-AUC for selection?
 **Short answer:** PR-AUC reflects performance on the rare class; ROC-AUC can look good because there are so many true negatives.
-**Deeper explanation:** Logistic Regression had the best ROC-AUC (0.952) but much lower precision (0.744).
+**Deeper explanation:** Logistic Regression had the best ROC-AUC (0.964) but lower precision (0.842).
 
 ### Q55. How did you handle class imbalance?
 **Short answer:** Class weights for LR and RF, `scale_pos_weight` for XGBoost, and stratified splitting.
@@ -244,7 +244,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q59. What is Isolation Forest used for?
 **Short answer:** An unsupervised anomaly percentile used by the policy and shown to reviewers.
-**Deeper explanation:** It is trained without labels; its PR-AUC (0.830) is reported for transparency.
+**Deeper explanation:** It is trained without labels; its PR-AUC (0.862) is reported for transparency.
 
 ### Q60. What is SHAP?
 **Short answer:** A method that splits a prediction into per-feature contributions based on Shapley values.

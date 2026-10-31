@@ -45,10 +45,10 @@ are always on the Model Analytics page:
 
 | Model | Precision | Recall | F1 | ROC-AUC | PR-AUC |
 |---|---|---|---|---|---|
-| Random Forest (primary) | 0.941 | 0.889 | 0.914 | 0.939 | 0.897 |
-| Logistic Regression | 0.744 | 0.889 | 0.810 | 0.952 | 0.893 |
-| XGBoost | 0.914 | 0.889 | 0.901 | 0.951 | 0.886 |
-| Isolation Forest | 0.700 | 0.778 | 0.737 | 0.940 | 0.830 |
+| Random Forest (primary) | 0.970 | 0.889 | 0.927 | 0.954 | 0.914 |
+| Logistic Regression | 0.842 | 0.889 | 0.865 | 0.964 | 0.911 |
+| XGBoost | 0.939 | 0.861 | 0.899 | 0.958 | 0.903 |
+| Isolation Forest | 0.849 | 0.778 | 0.812 | 0.944 | 0.862 |
 
 The synthetic generator deliberately includes "friendly fraud" (fraud that looks normal) and legitimate large
 purchases, so metrics are not perfect. They describe performance on synthetic data only.

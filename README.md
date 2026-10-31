@@ -3,7 +3,7 @@
 **Autonomous AI-powered payment risk intelligence and protection on PayPal.**
 *Every transaction. Every connection. Every risk. Understood.*
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB) ![React 18](https://img.shields.io/badge/react-18-61DAFB) ![PayPal Sandbox](https://img.shields.io/badge/PayPal-Sandbox-003087) ![Tests: 24 passing](https://img.shields.io/badge/tests-24%20passing-2ea44f)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB) ![React 18](https://img.shields.io/badge/react-18-61DAFB) ![PayPal Sandbox](https://img.shields.io/badge/PayPal-Sandbox-003087) ![Tests: 25 passing](https://img.shields.io/badge/tests-25%20passing-2ea44f)
 
 Sentinel is a payment protection layer that sits between a buyer approving a PayPal checkout and the merchant capturing the money. It verifies the PayPal order, scores the payment with machine learning and graph intelligence, captures low-risk payments automatically, and **holds everything else until a human reviewer approves it**, with an AI investigation report that cites its evidence.
 
@@ -154,14 +154,14 @@ More diagrams (ER diagram, ML flow, agent tool-calling, security boundaries): [d
 - **Selection**: the primary model is chosen automatically by **hold-out PR-AUC**, not accuracy.
 - **Explanations**: SHAP (`TreeExplainer` / `LinearExplainer`) turns each prediction into readable factors such as *"Amount is 43.4x the customer's historical average"*.
 
-Hold-out results (model v1, 500 test rows, **synthetic data**, threshold 0.5):
+Hold-out results (model v1, 500 test rows, **synthetic data**, threshold 0.5). Generation and training are deterministic, so every fresh seed reproduces these numbers exactly:
 
 | Model | Precision | Recall | F1 | ROC-AUC | PR-AUC |
 |---|---|---|---|---|---|
-| **Random Forest (primary)** | 0.941 | 0.889 | 0.914 | 0.939 | **0.897** |
-| Logistic Regression | 0.744 | 0.889 | 0.810 | 0.952 | 0.893 |
-| XGBoost | 0.914 | 0.889 | 0.901 | 0.951 | 0.886 |
-| Isolation Forest (unsupervised) | 0.700 | 0.778 | 0.737 | 0.940 | 0.830 |
+| **Random Forest (primary)** | 0.970 | 0.889 | 0.927 | 0.954 | **0.914** |
+| Logistic Regression | 0.842 | 0.889 | 0.865 | 0.964 | 0.911 |
+| XGBoost | 0.939 | 0.861 | 0.899 | 0.958 | 0.903 |
+| Isolation Forest (unsupervised) | 0.849 | 0.778 | 0.812 | 0.944 | 0.862 |
 
 These numbers show that the pipeline is correct and evaluated honestly. They say nothing about real-world accuracy.
 
@@ -316,7 +316,7 @@ npm --prefix frontend run dev
 
 Demo accounts (all synthetic, password `SentinelDemo!2026`): `reviewer@sentinel.dev`, `admin@sentinel.dev`, `analyst@sentinel.dev`, `ava@shopper.sentinel.dev`, `ben@shopper.sentinel.dev`, `cara@shopper.sentinel.dev`.
 
-**Reset to a clean state** (recommended before recording a demo, because every demo run adds history and shifts later scores): stop the backend, delete `backend/sentinel.db*` and `backend/model_store/`, then start it again.
+**Reset to a clean state** (recommended before recording a demo, because every demo run adds history and shifts later scores): stop the backend, run `powershell -ExecutionPolicy Bypass -File scripts\reset-demo.ps1` (or delete `backend/sentinel.db*` and `backend/model_store/`), then start it again.
 
 **Docker (PostgreSQL + Redis + nginx):**
 
@@ -338,9 +338,9 @@ Launch from **Command Centre → Demonstration scenarios**. "Run risk pipeline" 
 
 | | Scenario | Result observed on a fresh database |
 |---|---|---|
-| A | Ava buys $76 of coffee gear on her usual laptop | ML 0.006 → **LOW**, cleared for automatic capture |
-| B | Ben (avg ≈ $38) buys a $1,849 ultrabook on a new device | ML 0.098, but 43.4× his average → **MEDIUM**, held for verification, SHAP explains why |
-| C | Cara buys a $500 gift card on an emulator shared by 4 accounts | ML 0.313, graph policy → **HIGH**, agent recommends **REJECT** with 6 evidence-backed findings |
+| A | Ava buys $76 of coffee gear on her usual laptop | ML 0.000 → **LOW**, cleared for automatic capture |
+| B | Ben (avg ≈ $38) buys a $1,849 ultrabook on a new device | ML 0.066, but 43.4× his average → **MEDIUM**, held for verification, SHAP explains why |
+| C | Cara buys a $500 gift card on an emulator shared by 4 accounts | ML 0.333, graph policy → **HIGH**, agent recommends **REJECT** with 5 evidence-backed findings |
 
 Exact scores change slightly after repeated runs because each run adds history (reset the database for consistent numbers).
 
@@ -350,7 +350,7 @@ Exact scores change slightly after repeated runs because each run adds history (
 backend\.venv\Scripts\python -m pytest -q backend\tests
 ```
 
-**Latest result: 24 passed, 0 failed.** The tests run against an isolated database and a **mock PayPal transport** (test-only) and cover:
+**Latest result: 25 passed, 0 failed.** The tests run against an isolated database and a **mock PayPal transport** (test-only) and cover:
 
 - order creation with server prices
 - idempotency
