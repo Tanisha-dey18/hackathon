@@ -88,25 +88,29 @@ Prerequisites: Python 3.12+ and Node 20+.
 cp .env.example .env
 ```
 
-```bash
-cd backend && python -m venv .venv && .venv/Scripts/pip install -r requirements.txt
-```
-
-(On macOS/Linux use `.venv/bin/pip` and `.venv/bin/python`.)
+Run these from the repository root (they work in PowerShell, cmd and bash; on macOS/Linux use `backend/.venv/bin/...` instead of `backend\.venv\Scripts\...`):
 
 ```bash
-cd backend && .venv/Scripts/python -m app.migrate
+python -m venv backend\.venv
 ```
 
 ```bash
-cd backend && .venv/Scripts/python -m uvicorn app.main:app --port 8000
+backend\.venv\Scripts\python -m pip install -r backend\requirements.txt
 ```
 
-The first start seeds the synthetic world (100 customers, 25 merchants, 150 devices, 2,000 transactions),
+```bash
+backend\.venv\Scripts\python -m uvicorn app.main:app --app-dir backend --port 8000
+```
+
+The first start runs migrations, seeds the synthetic world (100 customers, 25 merchants, 150 devices, 2,000 transactions),
 trains all four models and scores history (~30–60 s). Then, in a second terminal:
 
 ```bash
-cd frontend && npm install && npm run dev
+npm --prefix frontend install
+```
+
+```bash
+npm --prefix frontend run dev
 ```
 
 | What | URL |
@@ -176,7 +180,7 @@ Each scenario has two buttons: **Run risk pipeline** (DEMO transaction through t
 ## Tests
 
 ```bash
-cd backend && .venv/Scripts/python -m pytest -q
+backend\.venv\Scripts\python -m pytest -q backend\tests
 ```
 
 23 tests cover transaction creation, ML predictions, risk classification, graph detection, agent tools and
