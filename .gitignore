@@ -21,3 +21,6 @@ frontend/dist/
 .DS_Store
 *.log
 scripts/.import-check.txt
+
+# build caches
+*.tsbuildinfo

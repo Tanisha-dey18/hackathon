@@ -38,6 +38,7 @@ from reportlab.platypus.tableofcontents import TableOfContents
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE.parent
+ROOT = OUT.parent
 ASSETS = OUT / "assets"
 sys.path.insert(0, str(HERE))
 from diagrams import DIAGRAMS  # noqa: E402
@@ -193,6 +194,11 @@ class Counter:
     figure = 0
 
 
+class Settings:
+    toc_depth = 2
+    img_max = 92 * mm
+
+
 def figure_caption(text: str) -> Paragraph:
     Counter.figure += 1
     return Paragraph(f"Figure {Counter.figure}: {inline(text)}", S["caption"])
@@ -213,8 +219,8 @@ def image_flowables(name: str, caption: str):
     iw, ih = ImageReader(str(path)).getSize()
     w = FRAME_W
     h = w * ih / iw
-    if h > 120 * mm:
-        h = 120 * mm
+    if h > Settings.img_max:
+        h = Settings.img_max
         w = h * iw / ih
     img = Image(str(path), width=w, height=h)
     frame = Table([[img]], colWidths=[w + 2], hAlign="CENTER")
@@ -241,6 +247,22 @@ def md_to_flowables(md: str, part_breaks: bool = True) -> list:
         s = ln.strip()
         if not s:
             flush()
+            i += 1
+            continue
+        if s.startswith("```mermaid"):
+            flush()
+            j = i + 1
+            while j < len(lines) and not lines[j].strip().startswith("```"):
+                j += 1
+            i = j + 1
+            continue
+        pm_marker = re.match(r"^<!--\s*pdf:(DIAGRAM|IMG):([^|>\s]+)\s*-->$", s)
+        if pm_marker:
+            flush()
+            out += diagram_flowables(pm_marker.group(2))
+            i += 1
+            continue
+        if s.startswith("<!--"):
             i += 1
             continue
         if s.startswith("```"):
@@ -274,8 +296,8 @@ def md_to_flowables(md: str, part_breaks: bool = True) -> list:
             flush()
             title = s[2:].strip()
             pm = re.match(r"PART (\d+):\s*(.+)", title)
-            if part_breaks and not first_part:
-                out.append(PageBreak())
+            if not first_part:
+                out.append(PageBreak() if part_breaks else CondPageBreak(170))
             first_part = False
             if pm:
                 hdr = PartHeader(f"Part {pm.group(1)}", pm.group(2))
@@ -353,7 +375,7 @@ class SentinelDoc(BaseDocTemplate):
 
     def afterFlowable(self, f):
         toc = getattr(f, "_toc", None)
-        if toc:
+        if toc and toc[0] < Settings.toc_depth:
             level, text = toc
             key = f"toc{id(f)}"
             self.canv.bookmarkPage(key)
@@ -476,10 +498,13 @@ def split_parts(md: str) -> dict[int, str]:
     return parts
 
 
-def build(path: Path, doc_title: str, purpose: str, md: str, toc: bool = True, about: bool = True):
+def build(path: Path, doc_title: str, purpose: str, md: str, toc: bool = True, about: bool = True,
+          part_breaks: bool = True, toc_depth: int = 2, img_max_mm: float = 92):
     Counter.figure = 0
+    Settings.toc_depth = toc_depth
+    Settings.img_max = img_max_mm * mm
     doc = SentinelDoc(path, doc_title)
-    story = [Spacer(1, 1)] + front_matter(doc_title, purpose, toc, about) + md_to_flowables(md)
+    story = [Spacer(1, 1)] + front_matter(doc_title, purpose, toc, about) + md_to_flowables(md, part_breaks)
     if toc:
         doc.multiBuild(story)
     else:
@@ -519,24 +544,28 @@ def main():
     parts = split_parts(full)
     assert sorted(parts) == list(range(1, 21)), sorted(parts)
 
+    core = "\n\n".join(parts[n] for n in range(1, 19))
     build(OUT / "SENTINEL_Complete_Project_Report.pdf", "Complete Project Report",
-          "The complete technical and non-technical report: problem, solution, architecture, implementation, PayPal "
-          "integration, testing, limitations, interview preparation and personal pitches. Parts 1 to 4 are written for "
-          "non-technical readers; Parts 5 to 12 for engineers and judges.", full)
+          "The complete technical and non-technical report (Parts 1 to 18): problem, solution, architecture, implementation, "
+          "PayPal integration, testing, limitations and conclusion. Parts 1 to 4 are written for non-technical readers. The "
+          "interview question bank and personal pitches are in the separate Viva and Interview Guide.", core,
+          part_breaks=False, toc_depth=1, img_max_mm=72)
 
-    tech = "\n\n".join(parts[n] for n in (5, 6, 7, 8, 9, 10, 11, 12, 15, 17))
+    arch = (ROOT / "docs" / "SENTINEL_TECHNICAL_ARCHITECTURE.md").read_text(encoding="utf-8")
     build(OUT / "SENTINEL_Technical_Architecture.pdf", "Technical Architecture",
-          "An engineering-focused extract of the complete report: architecture, technology stack, ML pipeline, graph "
-          "intelligence, investigation agent, PayPal integration, database and API, security, testing and limitations.", tech)
+          "Architecture of the implemented system: components, transaction lifecycle, component interaction, data model, API "
+          "flow, ML inference, agent tool calling, graph intelligence, payment state machine, security boundaries and "
+          "deployment. Generated from docs/SENTINEL_TECHNICAL_ARCHITECTURE.md (Mermaid diagrams are drawn natively here).", arch)
 
-    build(OUT / "SENTINEL_Project_Quick_Overview.pdf", "Project Quick Overview",
+    build(OUT / "SENTINEL_Quick_Overview.pdf", "Quick Overview",
           "A short overview for recruiters and judges. See the Complete Project Report for details.", quick, toc=False,
           about=False)
 
-    viva = parts[19] + "\n\n" + parts[20]
+    primer = (HERE / "viva_primer.md").read_text(encoding="utf-8")
+    viva = primer + "\n\n" + parts[19] + "\n\n" + parts[20]
     build(OUT / "SENTINEL_Viva_and_Interview_Guide.pdf", "Viva and Interview Guide",
-          "The full question bank (110 questions with short answers, deeper explanations and follow-ups) plus the elevator "
-          "pitch, 2-minute and 5-minute explanations, and resume, LinkedIn, GitHub and submission descriptions.", viva)
+          "A plain-language primer on every technology, model and design choice, followed by 110 viva and interview "
+          "questions with short answers, deeper explanations and follow-ups, and ready-made pitches and descriptions.", viva)
 
     export_markdown(full, quick)
     print("built")
