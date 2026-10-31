@@ -12,6 +12,8 @@ class Settings(BaseSettings):
         env_file=(BACKEND_DIR.parent / ".env", BACKEND_DIR / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
+        # .env.example ships blank keys (e.g. DATABASE_URL=); blank means "use the default"
+        env_ignore_empty=True,
     )
 
     app_env: str = "development"

@@ -6,6 +6,7 @@ import {
   Position,
   ReactFlow,
   ReactFlowProvider,
+  useNodesInitialized,
   useReactFlow,
   type Edge,
   type Node,
@@ -121,10 +122,11 @@ function Inner({ data, highlight, onSelectNode, onSelectEdge, height }: GraphPro
     };
   }), [data, highlight]);
 
+  // Fit only after React Flow has measured the nodes, otherwise large graphs end up cropped
+  const initialized = useNodesInitialized();
   useEffect(() => {
-    const t = setTimeout(() => rf.fitView({ padding: 0.15, duration: 400 }), 50);
-    return () => clearTimeout(t);
-  }, [data, rf]);
+    if (initialized) rf.fitView({ padding: 0.12, duration: 400 });
+  }, [initialized, data, rf]);
 
   return (
     <div style={{ height }} className="relative">
