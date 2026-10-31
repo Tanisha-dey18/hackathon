@@ -1,26 +1,24 @@
-# Render Blueprint: backend (Docker web service) + PostgreSQL + static frontend.
-databases:
-  - name: sentinel-db
-    plan: free
-    databaseName: sentinel
-    user: sentinel
-
+# Render Blueprint for the SENTINEL backend (the frontend is deployed to Netlify, see netlify.toml).
+#
+# The image seeds the deterministic synthetic world and trains the models at build time
+# (backend/Dockerfile.render) and uses SQLite inside the container, so the free plan works:
+# the disk is ephemeral, and every start restores the same clean demo state, shifted to today.
+# Optional: switch DATABASE_URL to a managed PostgreSQL database for persistent data.
 services:
   - type: web
     name: sentinel-api
     runtime: docker
-    rootDir: backend
-    plan: starter
+    dockerfilePath: ./backend/Dockerfile.render
+    dockerContext: ./backend
+    plan: free
     healthCheckPath: /api/health
     envVars:
-      - key: DATABASE_URL
-        fromDatabase: { name: sentinel-db, property: connectionString }
-      - key: JWT_SECRET
-        generateValue: true
       - key: APP_ENV
         value: production
+      - key: JWT_SECRET
+        generateValue: true
       - key: CORS_ORIGINS
-        value: https://sentinel-web.onrender.com
+        value: https://sentinel-payment-risk.netlify.app
       - key: PAYPAL_BASE_URL
         value: https://api-m.sandbox.paypal.com
       - key: PAYPAL_CLIENT_ID
@@ -31,19 +29,3 @@ services:
         sync: false
       - key: GROQ_API_KEY
         sync: false
-      - key: SEED_PASSWORD
-        sync: false
-
-  - type: web
-    name: sentinel-web
-    runtime: static
-    rootDir: frontend
-    buildCommand: npm ci && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://sentinel-api.onrender.com
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html

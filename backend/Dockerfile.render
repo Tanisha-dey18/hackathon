@@ -1,0 +1,21 @@
+# Render image: seeds the deterministic synthetic world and trains the models at BUILD time, so the
+# service starts in seconds on small instances whose disk is ephemeral. On each start the backend
+# shifts the baked history forward to end today (SHIFT_SYNTHETIC_TO_TODAY). Demo accounts use the
+# default SEED_PASSWORD baked into the image.
+FROM python:3.13-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+ENV DATABASE_URL=sqlite:////app/data/sentinel.db \
+    MODEL_DIR=/app/model_store \
+    AUTO_SEED=true \
+    SHIFT_SYNTHETIC_TO_TODAY=true
+RUN mkdir -p /app/data /app/model_store \
+    && python -c "from app.main import init_database; init_database()" \
+    && useradd --create-home sentinel && chown -R sentinel /app
+USER sentinel
+EXPOSE 8000
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --proxy-headers"]

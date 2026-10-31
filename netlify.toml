@@ -1,0 +1,23 @@
+# Netlify hosts the static React frontend only. The FastAPI backend must run elsewhere
+# (e.g. Render via render.yaml); set VITE_API_URL in Netlify to that backend's https URL
+# and add this site's URL to the backend's CORS_ORIGINS.
+[build]
+  base = "frontend"
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app: let React Router handle every path
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "no-referrer"

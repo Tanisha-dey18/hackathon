@@ -42,6 +42,8 @@ class Settings(BaseSettings):
     model_dir: str = str(BACKEND_DIR / "model_store")
     rate_limit_per_minute: int = 120
     auto_seed: bool = True
+    # Shift baked-in synthetic history to end today on start-up (for images seeded at build time)
+    shift_synthetic_to_today: bool = False
 
     @property
     def paypal_configured(self) -> bool:

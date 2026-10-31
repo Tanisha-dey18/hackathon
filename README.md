@@ -56,7 +56,8 @@ Sentinel uses the gap that PayPal's Orders API already provides between **buyer 
 | Hash-chained audit log with verification | Implemented and tested |
 | Command Centre dashboard, live WebSocket updates, AG Grid transaction table, React Flow graph explorer | Implemented |
 | Three demo scenarios + synthetic traffic simulator | Implemented |
-| Docker Compose / Render deployment | Configured; **not run** (no Docker daemon on build machine, not deployed) |
+| Docker Compose | Configured; **not run** (no Docker daemon on build machine) |
+| Public deployment (Render backend + Netlify frontend) | In progress: Netlify site created; Render backend pending |
 | Community detection, AUTHORIZE-intent flow, refunds | Future work |
 
 ## 5. Transaction lifecycle
@@ -326,6 +327,32 @@ docker compose up --build
 
 The frontend is then at http://localhost:8080. The Compose setup is written but was not run on the build machine.
 
+### Public deployment (Render backend + Netlify frontend)
+
+| Part | Where | Config |
+|---|---|---|
+| Frontend | Netlify: https://sentinel-payment-risk.netlify.app | `netlify.toml` (builds `frontend/`, SPA routing); env `VITE_API_URL` = backend URL |
+| Backend | Render free web service (`sentinel-api`) | `render.yaml` + `backend/Dockerfile.render` |
+
+How the backend image works on Render's free plan:
+
+- **Seeding at build time.** The image seeds the deterministic synthetic world and trains the models while it is built, so start-up takes seconds.
+- **SQLite inside the container.** Render's free disk is ephemeral, so every restart returns to the same clean demo state. On each start the history is shifted forward to end today (`SHIFT_SYNTHETIC_TO_TODAY`).
+- **Free instances sleep after ~15 minutes idle.** The first request after a sleep takes about a minute.
+
+To deploy the backend:
+
+1. Sign in at https://dashboard.render.com → **New → Blueprint** → select this repository → **Apply**.
+2. Optional: set `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` (Sandbox), `PAYPAL_WEBHOOK_ID` and `GROQ_API_KEY` on the `sentinel-api` service.
+3. Copy the service URL (e.g. `https://sentinel-api.onrender.com`).
+
+To deploy the frontend:
+
+1. Set `VITE_API_URL` to the backend URL.
+2. Build and deploy: `netlify deploy --prod` from the repository root, or connect the repo in Netlify (it reads `netlify.toml`).
+
+The demo accounts on the deployed site use the default password `SentinelDemo!2026` (synthetic accounts, baked into the image).
+
 ## 18. ML training and inference
 
 - **Training** happens automatically on first start. To retrain later, sign in as ADMIN and use **Model Analytics → Retrain models** (or `POST /api/models/retrain`). Retraining also learns from reviewer decisions (REJECT = fraud, APPROVE = legitimate).
@@ -380,7 +407,7 @@ Frontend: `tsc -b` and `vite build` pass. Full evidence, including what is **not
 
 - Models are trained and evaluated on **synthetic** data; probabilities are not calibrated.
 - **Live PayPal Sandbox checkout, webhooks and the Groq LLM path have not been executed yet** (no credentials on the build machine).
-- Docker Compose and Render configurations are written but not run or deployed; there is **no hosted demo URL**.
+- Docker Compose was not run on the build machine. The Render + Netlify deployment is configured; the hosted demo runs on Render's free plan (sleeps when idle) with ephemeral SQLite demo data.
 - Single-process caches (feature state, graph, WebSocket fan-out); horizontal scaling would need a shared store. A live assessment takes about 175 ms (median of 8 runs on the dev laptop; the first call after start-up takes about 0.7 s while models load).
 - CAPTURE intent means held orders must be decided within PayPal's approval window.
 - JWT is stored in `sessionStorage`. There is no MFA, no frontend automated tests and no load testing.

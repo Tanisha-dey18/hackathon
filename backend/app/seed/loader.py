@@ -41,6 +41,38 @@ STAFF_USERS = [
 ]
 
 
+def shift_synthetic_to_today(db: Session) -> int:
+    """Move synthetic history forward by whole days so it ends at the latest UTC midnight.
+
+    Used where the database is baked into an image (Render): the data was seeded on build day but
+    should look current. Whole-day shifts keep every feature, score and decision identical, the same
+    as re-seeding today. Audit rows keep their real timestamps (their hashes cover them)."""
+    from datetime import datetime, timezone
+
+    from ..ml.features import aware
+
+    anchor = db.get(SystemSetting, "synthetic_anchor")
+    if anchor is None:
+        return 0
+    end = datetime.fromisoformat(anchor.value["end"])
+    today = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    days = (today - end).days
+    if days <= 0:
+        return 0
+    delta = timedelta(days=days)
+    ids = []
+    for t in db.execute(select(Transaction).where(Transaction.channel == "SYNTHETIC_HISTORY")).scalars():
+        t.created_at = aware(t.created_at) + delta
+        ids.append(t.id)
+    for fp in db.execute(select(FraudPrediction).where(FraudPrediction.transaction_id.in_(ids))).scalars():
+        fp.created_at = aware(fp.created_at) + delta
+    for c in db.execute(select(Customer)).scalars():
+        c.created_at = aware(c.created_at) + delta
+    anchor.value = {"end": (end + delta).isoformat()}
+    db.commit()
+    return days
+
+
 def is_seeded(db: Session) -> bool:
     return (db.execute(select(func.count()).select_from(Transaction)).scalar() or 0) > 0
 
@@ -77,6 +109,7 @@ def seed(db: Session) -> dict:
             description=t.description, created_at=t.ts,
         ))
     db.add(SystemSetting(key="risk_policy", value=DEFAULT_POLICY))
+    db.add(SystemSetting(key="synthetic_anchor", value={"end": world.now.isoformat()}))
     db.flush()
     graph_stats = rebuild_graph_tables(db)
     audit.record(db, "SYNTHETIC_ENVIRONMENT_SEEDED", "system", "seed", {

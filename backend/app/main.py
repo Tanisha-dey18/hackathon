@@ -38,7 +38,7 @@ log = logging.getLogger("sentinel")
 
 def init_database() -> None:
     from .migrate import upgrade_head
-    from .seed.loader import is_seeded, seed
+    from .seed.loader import is_seeded, seed, shift_synthetic_to_today
 
     upgrade_head()
     if get_settings().auto_seed:
@@ -49,6 +49,10 @@ def init_database() -> None:
                 log.info("Seed result: %s", seed(db))
             else:
                 _ensure_model_artifact(db)
+                if get_settings().shift_synthetic_to_today:
+                    days = shift_synthetic_to_today(db)
+                    if days:
+                        log.info("Shifted synthetic history forward %d day(s) to end today", days)
         finally:
             db.close()
 

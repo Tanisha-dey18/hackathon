@@ -68,6 +68,36 @@ def test_synthetic_world_is_independent_of_seed_time():
     assert max(t.ts for t in a.transactions) < a.now
 
 
+def test_baked_image_data_shifts_to_today(client):
+    """Simulate a database seeded 3 days ago (as in a Docker image) and check the start-up shift."""
+    from datetime import datetime, timedelta
+
+    from app.ml.features import aware
+    from app.models import Customer, FraudPrediction, SystemSetting
+    from app.seed.loader import shift_synthetic_to_today
+
+    back = timedelta(days=3)
+    with SessionLocal() as db:
+        txns = list(db.execute(select(Transaction).where(Transaction.channel == "SYNTHETIC_HISTORY")).scalars())
+        original = {t.id: aware(t.created_at) for t in txns}
+        for t in txns:
+            t.created_at = aware(t.created_at) - back
+        for fp in db.execute(select(FraudPrediction).where(FraudPrediction.transaction_id.in_(list(original)))).scalars():
+            fp.created_at = aware(fp.created_at) - back
+        for c in db.execute(select(Customer)).scalars():
+            c.created_at = aware(c.created_at) - back
+        anchor = db.get(SystemSetting, "synthetic_anchor")
+        anchor.value = {"end": (datetime.fromisoformat(anchor.value["end"]) - back).isoformat()}
+        db.commit()
+
+        assert shift_synthetic_to_today(db) == 3
+        assert shift_synthetic_to_today(db) == 0  # idempotent
+        db.expire_all()
+        restored = {t.id: aware(t.created_at) for t in db.execute(
+            select(Transaction).where(Transaction.channel == "SYNTHETIC_HISTORY")).scalars()}
+        assert restored == original
+
+
 def test_risk_classification_policy():
     p = DEFAULT_POLICY
     assert classify(0.05, p) == "LOW"
