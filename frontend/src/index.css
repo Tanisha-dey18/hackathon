@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-ink-950 text-fog-100 font-sans antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 85% -10%, rgba(34, 211, 238, 0.07), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(99, 102, 241, 0.05), transparent 60%);
+  background-attachment: fixed;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #252e40 transparent;
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-ink-700/70 bg-ink-850/80 shadow-card backdrop-blur-sm;
+  }
+  .card-header {
+    @apply flex items-center justify-between gap-3 border-b border-ink-700/60 px-4 py-3;
+  }
+  .label {
+    @apply text-[11px] font-medium uppercase tracking-[0.12em] text-fog-400;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition
+      disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60;
+  }
+  .btn-primary {
+    @apply btn bg-cyan-400 text-ink-950 hover:bg-cyan-300;
+  }
+  .btn-ghost {
+    @apply btn border border-ink-600 bg-ink-800/60 text-fog-200 hover:border-ink-500 hover:bg-ink-750;
+  }
+  .btn-danger {
+    @apply btn bg-rose-500/90 text-white hover:bg-rose-500;
+  }
+  .btn-amber {
+    @apply btn bg-amber-400 text-ink-950 hover:bg-amber-300;
+  }
+  .btn-success {
+    @apply btn bg-emerald-400 text-ink-950 hover:bg-emerald-300;
+  }
+  .input {
+    @apply w-full rounded-lg border border-ink-600 bg-ink-900 px-3 py-2 text-sm text-fog-100 placeholder:text-fog-500
+      focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/20;
+  }
+  .mono {
+    @apply font-mono;
+  }
+}
+
+/* AG Grid dark theme tuning */
+.ag-theme-sentinel {
+  --ag-background-color: #0b0f16;
+  --ag-foreground-color: #c9d2e0;
+  --ag-header-background-color: #0f141c;
+  --ag-header-foreground-color: #9aa6ba;
+  --ag-border-color: #1a2130;
+  --ag-row-border-color: #131924;
+  --ag-odd-row-background-color: #0b0f16;
+  --ag-row-hover-color: rgba(34, 211, 238, 0.06);
+  --ag-selected-row-background-color: rgba(34, 211, 238, 0.1);
+  --ag-font-family: Inter, sans-serif;
+  --ag-font-size: 12.5px;
+  --ag-input-focus-border-color: #22d3ee;
+  --ag-range-selection-border-color: #22d3ee;
+}
+
+/* React Flow */
+.react-flow__attribution {
+  display: none;
+}
+.react-flow__controls {
+  @apply overflow-hidden rounded-lg border border-ink-600 shadow-card;
+}
+.react-flow__controls-button {
+  @apply border-ink-700 bg-ink-800 fill-fog-200 hover:bg-ink-700;
+}
+.react-flow__minimap {
+  @apply overflow-hidden rounded-lg border border-ink-700;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.55); }
+  70% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+.pulse-critical {
+  animation: pulse-ring 1.8s infinite;
+}

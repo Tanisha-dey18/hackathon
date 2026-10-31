@@ -1,0 +1,177 @@
+"""Preconfigured demonstration scenarios and a synthetic live-traffic simulator.
+
+Scenario runs push a DEMO-channel transaction through the real risk pipeline. They do not create
+PayPal orders; the PayPal path for each scenario is the shopper checkout (see `checkout` hints)."""
+from __future__ import annotations
+
+import logging
+import random
+import secrets
+import threading
+import time
+
+from fastapi import HTTPException
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from ..db import SessionLocal
+from ..models import Customer, Merchant, PaymentDestination, Product, Transaction, User
+from .risk import prediction_payload
+from .transactions import assess_and_route, create_transaction, resolve_device, should_auto_investigate
+
+log = logging.getLogger("sentinel.demo")
+
+SCENARIOS = {
+    "A": {
+        "key": "A", "title": "Normal payment",
+        "description": "Ava buys a pour-over set and coffee sampler on her usual laptop at home. Expected: LOW risk, "
+                       "automatic permitted capture.",
+        "customer_id": "CUS_0001", "shopper_email": "ava@shopper.sentinel.dev",
+        "products": [("PRD_005", 1), ("PRD_011", 1)], "device_fingerprint": "fp-ava-macbook-air", "geo": None,
+    },
+    "B": {
+        "key": "B", "title": "Anomalous payment",
+        "description": "Ben, who usually spends ~$38, suddenly buys a $1,849 ultrabook from an unrecognised device. "
+                       "Expected: elevated risk, SHAP explanation, human review.",
+        "customer_id": "CUS_0002", "shopper_email": "ben@shopper.sentinel.dev",
+        "products": [("PRD_003", 1)], "device_fingerprint": "NEW", "geo": None,
+    },
+    "C": {
+        "key": "C", "title": "Coordinated fraud network",
+        "description": "Cara buys a $500 gift card from an emulator device shared by a ring of synthetic accounts that "
+                       "funnel money to flagged destinations. Expected: graph discovery, AI investigation, human decision.",
+        "customer_id": "CUS_0003", "shopper_email": "cara@shopper.sentinel.dev",
+        "products": [("PRD_013", 1)], "device_fingerprint": "fp-ring-emulator-01", "geo": {"lat": 25.79, "lon": -80.22},
+    },
+}
+
+
+def scenario_list(db: Session) -> list[dict]:
+    out = []
+    for s in SCENARIOS.values():
+        prods = [(db.get(Product, pid), q) for pid, q in s["products"]]
+        out.append({
+            **{k: v for k, v in s.items() if k != "products"},
+            "products": [{"product_id": p.id, "name": p.name, "quantity": q, "price": float(p.price)} for p, q in prods],
+            "total": round(sum(float(p.price) * q for p, q in prods), 2),
+        })
+    return out
+
+
+def run_scenario(db: Session, key: str, actor: User) -> dict:
+    s = SCENARIOS.get(key.upper())
+    if not s:
+        raise HTTPException(404, "Unknown scenario")
+    customer = db.get(Customer, s["customer_id"])
+    prods = [(db.get(Product, pid), q) for pid, q in s["products"]]
+    merchant: Merchant = prods[0][0].merchant
+    fp = s["device_fingerprint"]
+    if fp == "NEW":
+        fp = f"fp-demo-new-device-{secrets.token_hex(4)}"
+    device = resolve_device(db, fp)
+    geo = s["geo"] or {}
+    txn = create_transaction(
+        db, customer=customer, amount=sum(float(p.price) * q for p, q in prods), device=device, merchant=merchant,
+        destination=db.get(PaymentDestination, merchant.payout_destination_id), channel="DEMO",
+        lat=geo.get("lat"), lon=geo.get("lon"), scenario=f"DEMO_{s['key']}",
+        description=", ".join(f"{q}x {p.name}" for p, q in prods), actor=actor,
+    )
+    fp_row, action = assess_and_route(db, txn, actor=actor)
+    db.commit()
+    inv_id = None
+    if should_auto_investigate(db, txn, fp_row) or key.upper() == "C":
+        from ..agent.workflow import launch_investigation
+        inv_id = launch_investigation(txn.id, actor.id)
+    return {
+        "scenario": s["key"], "transaction_id": txn.id, "action": action, "status": txn.status,
+        "risk": prediction_payload(fp_row), "investigation_id": inv_id,
+        "note": "Risk pipeline run on a DEMO transaction. No PayPal order is created by this button; use the "
+                "shopper checkout to run the same scenario through PayPal Sandbox.",
+    }
+
+
+# --------------------------------------------------------------------------------- simulator
+class Simulator:
+    def __init__(self) -> None:
+        self.thread: threading.Thread | None = None
+        self.stop_event = threading.Event()
+        self.generated = 0
+        self.interval = 3.0
+        self.started_by: str | None = None
+        self.last_error: str | None = None
+
+    @property
+    def running(self) -> bool:
+        return bool(self.thread and self.thread.is_alive())
+
+    def status(self) -> dict:
+        return {"running": self.running, "generated": self.generated, "interval_seconds": self.interval,
+                "started_by": self.started_by, "last_error": self.last_error,
+                "label": "SYNTHETIC TRAFFIC — generated by the Sentinel simulator"}
+
+    def start(self, user: User, interval: float = 3.0, max_txns: int = 200) -> dict:
+        if self.running:
+            return self.status()
+        self.stop_event.clear()
+        self.interval = max(1.0, min(interval, 30.0))
+        self.started_by = user.email
+        self.thread = threading.Thread(target=self._loop, args=(max_txns,), daemon=True, name="simulator")
+        self.thread.start()
+        return self.status()
+
+    def stop(self) -> dict:
+        self.stop_event.set()
+        if self.thread:
+            self.thread.join(timeout=5)
+        return self.status()
+
+    def _loop(self, max_txns: int) -> None:
+        rng = random.Random()
+        n = 0
+        while not self.stop_event.is_set() and n < max_txns:
+            db = SessionLocal()
+            try:
+                self._one(db, rng)
+                db.commit()
+                n += 1
+                self.generated += 1
+            except Exception as exc:  # keep the simulator alive; surface the error
+                db.rollback()
+                self.last_error = f"{type(exc).__name__}: {exc}"[:300]
+                log.exception("simulator step failed")
+            finally:
+                db.close()
+            self.stop_event.wait(self.interval)
+
+    def _one(self, db: Session, rng: random.Random) -> None:
+        customers = [c for c in db.execute(select(Customer)).scalars() if c.id not in ("CUS_0001", "CUS_0002", "CUS_0003")]
+        c = rng.choice(customers)
+        hist = list(db.execute(select(Transaction).where(Transaction.customer_id == c.id, Transaction.merchant_id.is_not(None))
+                               .order_by(Transaction.created_at.desc()).limit(20)).scalars())
+        amounts = [float(t.amount) for t in hist] or [50.0]
+        avg = sum(amounts) / len(amounts)
+        roll = rng.random()
+        if roll < 0.85 and hist:  # normal behaviour: usual merchant, usual device, home
+            base = rng.choice(hist)
+            merchant, device = base.merchant, base.device
+            amount = max(3.0, rng.gauss(avg, avg * 0.35))
+            lat, lon, scen = c.home_lat + rng.uniform(-0.03, 0.03), c.home_lon + rng.uniform(-0.03, 0.03), "SIM_NORMAL"
+        elif roll < 0.93:  # account-takeover pattern
+            merchant = db.get(Merchant, rng.choice(["MER_001", "MER_023", "MER_022"]))
+            device = resolve_device(db, f"fp-sim-unknown-{secrets.token_hex(3)}", "LAPTOP", "Linux")
+            amount = avg * rng.uniform(8, 20)
+            lat, lon, scen = 6.52 + rng.uniform(-0.2, 0.2), 3.38 + rng.uniform(-0.2, 0.2), "SIM_ATO_PATTERN"
+        else:  # ring device reuse
+            merchant = db.get(Merchant, rng.choice(["MER_021", "MER_024"]))
+            device = resolve_device(db, rng.choice(["fp-ring-emulator-01", "fp-ring-emulator-02"]))
+            amount = rng.uniform(200, 600)
+            lat, lon, scen = 25.76, -80.19, "SIM_RING_PATTERN"
+        txn = create_transaction(
+            db, customer=c, amount=round(amount, 2), device=device, merchant=merchant,
+            destination=db.get(PaymentDestination, merchant.payout_destination_id), channel="SIMULATOR",
+            lat=lat, lon=lon, scenario=scen, description="Simulated purchase",
+        )
+        assess_and_route(db, txn)
+
+
+simulator = Simulator()

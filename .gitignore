@@ -1,0 +1,23 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.pyc
+.venv/
+backend/.venv/
+backend/*.db
+backend/*.db-*
+backend/model_store/
+.pytest_cache/
+
+# node
+node_modules/
+frontend/dist/
+
+# misc
+.DS_Store
+*.log
+scripts/.import-check.txt

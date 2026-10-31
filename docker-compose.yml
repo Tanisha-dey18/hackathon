@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sentinel
+      POSTGRES_PASSWORD: sentinel
+      POSTGRES_DB: sentinel
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinel"]
+      interval: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+
+  backend:
+    build: ./backend
+    env_file: [.env]
+    environment:
+      DATABASE_URL: postgresql://sentinel:sentinel@db:5432/sentinel
+      REDIS_URL: redis://redis:6379/0
+      CORS_ORIGINS: http://localhost:8080
+      MODEL_DIR: /app/model_store
+    volumes: [models:/app/model_store]
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_started }
+    ports: ["8000:8000"]
+
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    ports: ["8080:80"]
+
+volumes:
+  pgdata:
+  models:
