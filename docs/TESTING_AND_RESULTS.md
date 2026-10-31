@@ -6,7 +6,7 @@ Every result below was produced on the development machine (Windows 11, Python 3
 
 | Area | Status | Evidence |
 |---|---|---|
-| Backend automated tests | **PASS** (23/23) | `pytest -v`, section 2 |
+| Backend automated tests | **PASS** (24/24) | `pytest -v`, section 2 |
 | Frontend type check | **PASS** | `tsc -b` |
 | Frontend production build | **PASS** | `vite build` (built in 34 s) |
 | Live API smoke tests | **PASS** | section 3 |
@@ -26,7 +26,7 @@ Every result below was produced on the development machine (Windows 11, Python 3
 ## 2. Backend automated tests
 
 Command: `backend\.venv\Scripts\python -m pytest -v backend\tests`
-Result: **23 passed, 0 failed** (42.8 s in the latest run, which includes seeding and training a fresh test database).
+Result: **24 passed, 0 failed** (34.7 s in the latest run, which includes seeding and training a fresh test database).
 
 The tests use an isolated SQLite database and an `httpx.MockTransport` test double that emulates PayPal Sandbox (OAuth, Orders v2 create/get/capture with `PayPal-Request-Id` idempotency, `ORDER_ALREADY_CAPTURED`, webhook signature verification). The application never uses the mock.
 
@@ -38,6 +38,7 @@ The tests use an isolated SQLite database and an `httpx.MockTransport` test doub
 | test_transaction_creation_and_assessment | 401 without auth, 403 for shopper; risk payload; audit entry; 422 for negative amount | PASSED |
 | test_anomalous_amount_escalates | Demo B is held at MEDIUM or higher | PASSED |
 | test_graph_detects_fraud_structures | Shared device, 4-account cycle, both mule wallets; clean customer has no signals | PASSED |
+| test_incremental_graph_matches_full_rebuild | In-place graph updates equal a full rebuild | PASSED |
 | test_agent_tools_return_real_records | Tools read real records; invented and uncited findings removed | PASSED |
 | test_investigation_workflow_deterministic_fallback | All 7 tools run; fallback labelled; findings cite real keys; no money moved | PASSED |
 | test_rbac_and_auth | Role rules; forged token rejected | PASSED |
@@ -160,7 +161,18 @@ Bugs found and fixed during these checks:
 - Wrong shell syntax in the README.
 - Blank `.env` values breaking start-up.
 
-## 10. Security checks
+## 10. Latency micro-benchmark
+
+Measured on 1 Nov 2026 on the development laptop: 8 consecutive DEMO assessments for one customer, timed in-process (features + model + SHAP + policy + graph update).
+
+| Version | Median per assessment | Notes |
+|---|---|---|
+| Before: graph rebuilt from the DB after every transaction | ~700–1,000 ms | ~200 ms scoring + ~500 ms graph rebuild on the next request |
+| After: incremental graph update (`GraphEngine.apply_transaction`) | **174 ms** (stored latency), 196 ms including graph sync | The first call after start-up is ~700 ms (model and explainer load) |
+
+`test_incremental_graph_matches_full_rebuild` checks that the incrementally updated graph gives the same summary, shared devices, flagged destinations and customer graph scores as a fresh rebuild. This is a micro-benchmark, not a load test.
+
+## 11. Security checks
 
 | Check | Result |
 |---|---|

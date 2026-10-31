@@ -3,6 +3,7 @@ graph_relationships tables. Detects shared devices, circular payments, suspiciou
 repeated interactions with flagged destinations, and produces explorer views with evidence."""
 from __future__ import annotations
 
+import functools
 import threading
 from collections import defaultdict
 from datetime import datetime
@@ -108,10 +109,13 @@ def sync_transaction(db: Session, t: Transaction) -> None:
         "TRANSACTION": lambda r: f"${float(t.amount):,.2f}",
     }
     cache: dict[tuple[str, str], GraphEntity] = {}
+    node_info: dict[str, tuple[str, str, str, bool]] = {}
     for st, sr, tt, tr, rt in _txn_edges(t):
         for et, er in ((st, sr), (tt, tr)):
             if (et, er) not in cache:
                 cache[(et, er)] = _get_or_create_entity(db, et, er, labels[et](er))
+                e = cache[(et, er)]
+                node_info[key(et, er)] = (et, er, e.label, e.flagged)
         s, d = cache[(st, sr)], cache[(tt, tr)]
         rel = db.execute(select(GraphRelationship).where(
             GraphRelationship.source_id == s.id, GraphRelationship.target_id == d.id, GraphRelationship.rel_type == rt
@@ -121,7 +125,9 @@ def sync_transaction(db: Session, t: Transaction) -> None:
         else:
             db.add(GraphRelationship(source_id=s.id, target_id=d.id, rel_type=rt, weight=1))
     db.flush()
-    invalidate()
+    prob = db.execute(select(FraudPrediction.fraud_probability).where(FraudPrediction.transaction_id == t.id)
+                      .order_by(FraudPrediction.id.desc()).limit(1)).scalar()
+    _apply_incremental(t, prob, node_info)
 
 
 # --------------------------------------------------------------------------- analysis
@@ -136,6 +142,14 @@ def invalidate() -> None:
         _version += 1
 
 
+def _apply_incremental(t: Transaction, prob: float | None, node_info: dict) -> None:
+    """Fold one new transaction into the cached engine (about 10 ms) instead of rebuilding from the
+    database (about 500 ms). If no engine is cached yet, the next get_engine() builds one from the DB."""
+    with _state_lock:
+        if _engine is not None and _engine.version == _version:
+            _engine.apply_transaction(t, prob, node_info)
+
+
 def get_engine(db: Session) -> "GraphEngine":
     global _engine
     with _state_lock:
@@ -145,10 +159,19 @@ def get_engine(db: Session) -> "GraphEngine":
         return _engine
 
 
+def _locked(fn):
+    @functools.wraps(fn)
+    def wrapper(self, *args, **kwargs):
+        with self.lock:
+            return fn(self, *args, **kwargs)
+    return wrapper
+
+
 class GraphEngine:
     def __init__(self, db: Session, version: int) -> None:
         self.version = version
         self.built_at = datetime.utcnow()
+        self.lock = threading.RLock()  # guards in-place updates against concurrent readers
         self.G = nx.DiGraph()
         ents = {e.id: e for e in db.execute(select(GraphEntity)).scalars()}
         for e in ents.values():
@@ -178,42 +201,76 @@ class GraphEngine:
         self.dest_kind = {p.id: p.kind for p in db.execute(select(PaymentDestination)).scalars()}
         self.flag_reason = {p.id: p.flag_reason for p in db.execute(select(PaymentDestination)).scalars()}
         self._project()
+        self._customer_risk()
         self._analyze()
 
     # -------------------------------------------------- entity projection (collapse transaction nodes)
     def _project(self) -> None:
-        P = nx.Graph()
+        self.P = nx.Graph()
         for n, a in self.G.nodes(data=True):
             if a["type"] != "TRANSACTION":
-                P.add_node(n, **a)
-        agg: dict[tuple[str, str, str], dict] = {}
-
-        def bump(u, v, rel, tid=None, amount=0.0):
-            k = (u, v, rel) if u < v else (v, u, rel)
-            d = agg.setdefault(k, {"count": 0, "amount": 0.0, "txn_ids": []})
-            d["count"] += 1
-            d["amount"] += amount
-            if tid and len(d["txn_ids"]) < 25:
-                d["txn_ids"].append(tid)
-
+                self.P.add_node(n, **a)
         for tid, t in self.txn.items():
-            c = key("CUSTOMER", t["customer"])
-            bump(c, key("DEVICE", t["device"]), "USES_DEVICE", tid)
-            bump(c, key("DESTINATION", t["destination"]), "PAID_TO", tid, t["amount"])
-            if t["merchant"]:
-                bump(c, key("MERCHANT", t["merchant"]), "PAID_MERCHANT", tid, t["amount"])
+            self._project_txn(tid, t)
         for dst, owner in self.dest_owner.items():
             if owner:
-                bump(key("CUSTOMER", owner), key("DESTINATION", dst), "OWNS_WALLET")
-        for (u, v, rel), d in agg.items():
-            if P.has_node(u) and P.has_node(v):
-                if P.has_edge(u, v):  # keep the strongest relationship type for display
-                    P[u][v].setdefault("extra", []).append({"rel": rel, **d})
-                else:
-                    P.add_edge(u, v, rel=rel, **d)
-        self.P = P
+                self._pbump(key("CUSTOMER", owner), key("DESTINATION", dst), "OWNS_WALLET")
 
-        # customer risk = highest model score among the customer's transactions
+    def _project_txn(self, tid: str, t: dict) -> None:
+        c = key("CUSTOMER", t["customer"])
+        self._pbump(c, key("DEVICE", t["device"]), "USES_DEVICE", tid)
+        self._pbump(c, key("DESTINATION", t["destination"]), "PAID_TO", tid, t["amount"])
+        if t["merchant"]:
+            self._pbump(c, key("MERCHANT", t["merchant"]), "PAID_MERCHANT", tid, t["amount"])
+
+    def _pbump(self, u: str, v: str, rel: str, tid: str | None = None, amount: float = 0.0) -> None:
+        """Aggregate one relationship onto the projection edge u-v (first relationship type is primary)."""
+        P = self.P
+        if not (P.has_node(u) and P.has_node(v)):
+            return
+        if P.has_edge(u, v):
+            d = P[u][v]
+            if d["rel"] != rel:
+                extra = d.setdefault("extra", [])
+                d = next((e for e in extra if e["rel"] == rel), None)
+                if d is None:
+                    d = {"rel": rel, "count": 0, "amount": 0.0, "txn_ids": []}
+                    extra.append(d)
+        else:
+            P.add_edge(u, v, rel=rel, count=0, amount=0.0, txn_ids=[])
+            d = P[u][v]
+        d["count"] += 1
+        d["amount"] += amount
+        if tid and len(d["txn_ids"]) < 25:
+            d["txn_ids"].append(tid)
+
+    def apply_transaction(self, t: Transaction, prob: float | None, node_info: dict) -> None:
+        with self.lock:
+            for n, (etype, ref, label, flagged) in node_info.items():
+                if not self.G.has_node(n):
+                    self.G.add_node(n, type=etype, ref_id=ref, label=label, flagged=flagged, base_risk=0.0)
+                    if etype != "TRANSACTION":
+                        self.P.add_node(n, **self.G.nodes[n])
+            for st, sr, tt, tr, rt in _txn_edges(t):
+                u, v = key(st, sr), key(tt, tr)
+                if self.G.has_edge(u, v):
+                    self.G[u][v]["weight"] += 1
+                else:
+                    self.G.add_edge(u, v, rel=rt, weight=1)
+            rec = {
+                "customer": t.customer_id, "merchant": t.merchant_id, "device": t.device_id,
+                "destination": t.destination_id, "amount": float(t.amount), "ts": aware(t.created_at).isoformat(),
+                "prob": prob, "status": t.status, "risk_level": t.risk_level, "rejected": t.review_status == "REJECTED",
+            }
+            self.txn[t.id] = rec
+            self._project_txn(t.id, rec)
+            if prob is not None:
+                c = key("CUSTOMER", t.customer_id)
+                self.customer_risk[c] = max(self.customer_risk[c], prob)
+            self._analyze()
+
+    def _customer_risk(self) -> None:
+        """Customer risk = highest model score among the customer's transactions."""
         self.customer_risk: dict[str, float] = defaultdict(float)
         for t in self.txn.values():
             if t["prob"] is not None:
@@ -318,6 +375,7 @@ class GraphEngine:
                 self.cluster_of[P.nodes[c]["ref_id"]] = cid
 
     # -------------------------------------------------- per-entity signals (used by risk policy + agent)
+    @_locked
     def customer_signals(self, customer_id: str, device_id: str | None = None, destination_id: str | None = None) -> dict:
         cid = self.cluster_of.get(customer_id)
         cluster = next((c for c in self.clusters if c["cluster_id"] == cid), None)
@@ -347,6 +405,7 @@ class GraphEngine:
             "device_account_count": dev_accounts,
         }
 
+    @_locked
     def summary(self) -> dict:
         types = defaultdict(int)
         for _, a in self.G.nodes(data=True):
@@ -492,6 +551,7 @@ class GraphEngine:
             frontier = nxt
         return nodes
 
+    @_locked
     def entity_view(self, ref_id: str, hops: int = 2, limit: int = 70) -> dict | None:
         n = key(type_of_ref(ref_id), ref_id)
         if not self.P.has_node(n):
@@ -501,6 +561,7 @@ class GraphEngine:
         out["focus"] = n
         return out
 
+    @_locked
     def transaction_view(self, txn_id: str, limit: int = 60) -> dict | None:
         t = self.txn.get(txn_id)
         if not t:
@@ -525,6 +586,7 @@ class GraphEngine:
         out["focus"] = tnode
         return out
 
+    @_locked
     def overview(self, limit: int = 160) -> dict:
         nodes: set[str] = set()
         for c in sorted(self.clusters, key=lambda c: -c["mean_risk"]):

@@ -16,7 +16,7 @@ Repository: https://github.com/Tanisha-dey18/hackathon. Checked on 31 Oct 2026 b
 | Clear folder structure | ✅ COMPLETE | `backend/`, `frontend/`, `docs/`, `SENTINEL_DOCUMENTATION/`, `scripts/` |
 | Installation instructions | ✅ COMPLETE | README §15–17 (PowerShell, cmd and bash compatible) |
 | Frontend/backend run instructions | ✅ COMPLETE | Verified locally |
-| Test instructions | ✅ COMPLETE | README §20; 23/23 pass |
+| Test instructions | ✅ COMPLETE | README §20; 24/24 pass |
 | Screenshots | ✅ COMPLETE (partial set) | 17 genuine captures; PayPal Sandbox result screens still missing (needs credentials) |
 | Documentation | ✅ COMPLETE | `docs/` and the PDF set |
 | Correct project links | ✅ COMPLETE | README clone URL and documentation links point at this repository |

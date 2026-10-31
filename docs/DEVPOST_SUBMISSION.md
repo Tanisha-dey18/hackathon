@@ -46,7 +46,7 @@ PayPal's Orders API separates two moments that most people think of as one: the 
 - **ML**: scikit-learn, XGBoost and SHAP on a deterministic synthetic dataset (2,000 transactions, 142 labelled frauds) with a stratified hold-out set.
 - **Graph**: NetworkX over relationships stored in the database.
 - **Agent**: LangGraph state machine; Groq tool calling when a key is configured, a clearly labelled rule-based fallback otherwise.
-- **Tests**: 23 pytest tests, including the payment safety rules, run against a mock PayPal transport.
+- **Tests**: 24 pytest tests, including the payment safety rules, run against a mock PayPal transport.
 
 ### How we use AI
 

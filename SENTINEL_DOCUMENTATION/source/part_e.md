@@ -111,8 +111,8 @@
 **Deeper explanation:** Triggers are a payment to a flagged destination, a device shared by 3 or more accounts, or a cycle member. A graph risk score is also stored.
 
 ### Q108. How is the graph kept current?
-**Short answer:** Each assessed transaction is written to the graph tables and the cache is invalidated.
-**Deeper explanation:** The engine rebuilds on next use; this is fine for thousands of rows but would need incremental updates at scale.
+**Short answer:** Each assessed transaction is written to the graph tables and folded into the in-memory NetworkX engine incrementally.
+**Deeper explanation:** Rebuilding from the database took about 500 ms, so the engine now updates in place under a lock and only re-runs the detection pass. A test checks that the result matches a full rebuild. At large scale you would still move to a graph store.
 
 ### Q109. What would a graph neural network add?
 **Short answer:** Learned patterns over neighbourhoods instead of hand-written rules.
@@ -136,7 +136,7 @@ Sentinel is a payment layer on top of PayPal. Our demo shop creates a real PayPa
 
 Then the graph. We store every relationship between customers, devices, wallets and merchants, and NetworkX finds shared devices, money loops and clusters. In our third demo the model only gave about 0.31, but the device was shared with three other accounts paying flagged wallets, so the policy raised it to HIGH.
 
-High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 23 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
+High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 24 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
 
 ## 20.3 Five-minute technical explanation
 
@@ -156,11 +156,11 @@ High-risk payments get an AI investigation built with LangGraph: seven tools col
 
 **Agent:** a nine-node LangGraph workflow. Evidence is generated deterministically from tool outputs; Groq can call more tools and must submit a structured report; a validator drops uncited findings; if Groq isn't available there's a labelled rule-based fallback.
 
-**Audit and tests:** a SHA-256 hash-chained audit log with verification. 23 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
+**Audit and tests:** a SHA-256 hash-chained audit log with verification. 24 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
 
 ## 20.4 Resume description
 
-**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.897 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 23 automated tests.
+**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.897 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 24 automated tests.
 
 ## 20.5 LinkedIn description
 

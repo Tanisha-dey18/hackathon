@@ -964,9 +964,9 @@ This is the clearest demonstration of the project's thesis: the transaction look
 
 ## 15.1 Automated test suite
 
-The backend has 23 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
+The backend has 24 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
 
-Latest run: **23 passed, 0 failed (17.75 s)**.
+Latest run: **24 passed, 0 failed (34.7 s)**.
 
 | Test | Area | Checks |
 |---|---|---|
@@ -976,6 +976,7 @@ Latest run: **23 passed, 0 failed (17.75 s)**.
 | test_transaction_creation_and_assessment | API | 401 unauthenticated, 403 shopper; risk payload; CLEARED status; audit entry; 422 on negative amount |
 | test_anomalous_amount_escalates | Risk policy | Demo B is MEDIUM or higher and held; amount factor present |
 | test_graph_detects_fraud_structures | Graph | DEV_0147 shared; 4-account cycle; both mule wallets; clean customer has no signals; evidence on edges; 404 unknown entity |
+| test_incremental_graph_matches_full_rebuild | Graph | In-place graph updates match a full rebuild from the database |
 | test_agent_tools_return_real_records | AI tools | Tools return real records; ToolError on unknown IDs; report tool drops invented and uncited findings; invalid recommendation normalised |
 | test_investigation_workflow_deterministic_fallback | Agent workflow | All 7 tools run; labelled fallback; findings cite real keys; agent does not move money |
 | test_rbac_and_auth | Security | 401 / 403 rules; forged token rejected; admin-only policy update |
@@ -1126,7 +1127,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 **Deeper explanation:** Holding gives a human the chance to verify. The policy is configurable if a business wants a stricter setup.
 
 ### Q14. How do you know it works?
-**Short answer:** 23 automated tests pass, and the models are evaluated on held-out data.
+**Short answer:** 24 automated tests pass, and the models are evaluated on held-out data.
 **Deeper explanation:** Hold-out PR-AUC of the primary model is 0.897 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
 
 ### Q15. What happens if PayPal is down?
@@ -1135,7 +1136,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q16. How long does a risk check take?
 **Short answer:** Each assessment's latency is measured and stored; the dashboard shows the average.
-**Deeper explanation:** In development the average over the first live assessments was under a second, but it included cold-start model loading. No proper performance test was run.
+**Deeper explanation:** On the development laptop the median was about 175 ms over 8 consecutive assessments; the first one after start-up takes about 0.7 s while the model and SHAP explainer load. That's a micro-benchmark, not a load test.
 
 ### Q17. What is the audit trail and why does it matter?
 **Short answer:** A record of every action that is hash-chained, so changes are detectable.
@@ -1515,8 +1516,8 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 **Deeper explanation:** Triggers are a payment to a flagged destination, a device shared by 3 or more accounts, or a cycle member. A graph risk score is also stored.
 
 ### Q108. How is the graph kept current?
-**Short answer:** Each assessed transaction is written to the graph tables and the cache is invalidated.
-**Deeper explanation:** The engine rebuilds on next use; this is fine for thousands of rows but would need incremental updates at scale.
+**Short answer:** Each assessed transaction is written to the graph tables and folded into the in-memory NetworkX engine incrementally.
+**Deeper explanation:** Rebuilding from the database took about 500 ms, so the engine now updates in place under a lock and only re-runs the detection pass. A test checks that the result matches a full rebuild. At large scale you would still move to a graph store.
 
 ### Q109. What would a graph neural network add?
 **Short answer:** Learned patterns over neighbourhoods instead of hand-written rules.
@@ -1540,7 +1541,7 @@ Sentinel is a payment layer on top of PayPal. Our demo shop creates a real PayPa
 
 Then the graph. We store every relationship between customers, devices, wallets and merchants, and NetworkX finds shared devices, money loops and clusters. In our third demo the model only gave about 0.31, but the device was shared with three other accounts paying flagged wallets, so the policy raised it to HIGH.
 
-High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 23 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
+High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 24 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
 
 ## 20.3 Five-minute technical explanation
 
@@ -1560,11 +1561,11 @@ High-risk payments get an AI investigation built with LangGraph: seven tools col
 
 **Agent:** a nine-node LangGraph workflow. Evidence is generated deterministically from tool outputs; Groq can call more tools and must submit a structured report; a validator drops uncited findings; if Groq isn't available there's a labelled rule-based fallback.
 
-**Audit and tests:** a SHA-256 hash-chained audit log with verification. 23 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
+**Audit and tests:** a SHA-256 hash-chained audit log with verification. 24 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
 
 ## 20.4 Resume description
 
-**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.897 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 23 automated tests.
+**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.897 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 24 automated tests.
 
 ## 20.5 LinkedIn description
 
@@ -1611,7 +1612,7 @@ Fraud checks usually score one payment at a time and give no reasons. Organised 
 | Other models | XGBoost PR-AUC 0.886; Logistic Regression 0.893; Isolation Forest 0.830 |
 | Graph findings | 2 shared devices, 1 four-account money loop ($16,064), 2 flagged mule wallets, 4 suspicious clusters |
 | Demo C | ML score 0.313 alone; graph raised it to HIGH; agent recommended REJECT with 6 evidence-backed findings |
-| Automated tests | 23 passed, 0 failed |
+| Automated tests | 24 passed, 0 failed |
 
 ## What makes it different
 
@@ -1628,4 +1629,4 @@ React, TypeScript, Vite, Tailwind, Recharts, React Flow, AG Grid, TanStack Query
 
 | Verified | Not yet verified |
 |---|---|
-| Full app running locally; 23 tests; UI walkthrough; hold-out ML metrics; PostgreSQL DDL generation | Live PayPal Sandbox capture (no credentials on build machine); Groq LLM path (fallback used); Docker/Render runtime |
+| Full app running locally; 24 tests; UI walkthrough; hold-out ML metrics; PostgreSQL DDL generation | Live PayPal Sandbox capture (no credentials on build machine); Groq LLM path (fallback used); Docker/Render runtime |

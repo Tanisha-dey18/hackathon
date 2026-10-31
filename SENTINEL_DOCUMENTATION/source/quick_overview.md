@@ -26,7 +26,7 @@ Fraud checks usually score one payment at a time and give no reasons. Organised 
 | Other models | XGBoost PR-AUC 0.886; Logistic Regression 0.893; Isolation Forest 0.830 |
 | Graph findings | 2 shared devices, 1 four-account money loop ($16,064), 2 flagged mule wallets, 4 suspicious clusters |
 | Demo C | ML score 0.313 alone; graph raised it to HIGH; agent recommended REJECT with 6 evidence-backed findings |
-| Automated tests | 23 passed, 0 failed |
+| Automated tests | 24 passed, 0 failed |
 
 ## What makes it different
 
@@ -43,4 +43,4 @@ React, TypeScript, Vite, Tailwind, Recharts, React Flow, AG Grid, TanStack Query
 
 | Verified | Not yet verified |
 |---|---|
-| Full app running locally; 23 tests; UI walkthrough; hold-out ML metrics; PostgreSQL DDL generation | Live PayPal Sandbox capture (no credentials on build machine); Groq LLM path (fallback used); Docker/Render runtime |
+| Full app running locally; 24 tests; UI walkthrough; hold-out ML metrics; PostgreSQL DDL generation | Live PayPal Sandbox capture (no credentials on build machine); Groq LLM path (fallback used); Docker/Render runtime |

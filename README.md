@@ -3,7 +3,7 @@
 **Autonomous AI-powered payment risk intelligence and protection on PayPal.**
 *Every transaction. Every connection. Every risk. Understood.*
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB) ![React 18](https://img.shields.io/badge/react-18-61DAFB) ![PayPal Sandbox](https://img.shields.io/badge/PayPal-Sandbox-003087) ![Tests: 23 passing](https://img.shields.io/badge/tests-23%20passing-2ea44f)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB) ![React 18](https://img.shields.io/badge/react-18-61DAFB) ![PayPal Sandbox](https://img.shields.io/badge/PayPal-Sandbox-003087) ![Tests: 24 passing](https://img.shields.io/badge/tests-24%20passing-2ea44f)
 
 Sentinel is a payment protection layer that sits between a buyer approving a PayPal checkout and the merchant capturing the money. It verifies the PayPal order, scores the payment with machine learning and graph intelligence, captures low-risk payments automatically, and **holds everything else until a human reviewer approves it**, with an AI investigation report that cites its evidence.
 
@@ -350,7 +350,7 @@ Exact scores change slightly after repeated runs because each run adds history (
 backend\.venv\Scripts\python -m pytest -q backend\tests
 ```
 
-**Latest result: 23 passed, 0 failed.** The tests run against an isolated database and a **mock PayPal transport** (test-only) and cover:
+**Latest result: 24 passed, 0 failed.** The tests run against an isolated database and a **mock PayPal transport** (test-only) and cover:
 
 - order creation with server prices
 - idempotency
@@ -381,7 +381,7 @@ Frontend: `tsc -b` and `vite build` pass. Full evidence, including what is **not
 - Models are trained and evaluated on **synthetic** data; probabilities are not calibrated.
 - **Live PayPal Sandbox checkout, webhooks and the Groq LLM path have not been executed yet** (no credentials on the build machine).
 - Docker Compose and Render configurations are written but not run or deployed; there is **no hosted demo URL**.
-- Single-process caches (feature state, graph, WebSocket fan-out). The graph cache is rebuilt after each new transaction, so live assessments currently average around 1 s.
+- Single-process caches (feature state, graph, WebSocket fan-out); horizontal scaling would need a shared store. A live assessment takes about 175 ms (median of 8 runs on the dev laptop; the first call after start-up takes about 0.7 s while models load).
 - CAPTURE intent means held orders must be decided within PayPal's approval window.
 - JWT is stored in `sessionStorage`. There is no MFA, no frontend automated tests and no load testing.
 

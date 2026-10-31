@@ -109,6 +109,27 @@ def test_graph_detects_fraud_structures(client, reviewer):
     assert client.get("/api/graph/entity/CUS_9999", headers=reviewer).status_code == 404
 
 
+def test_incremental_graph_matches_full_rebuild(client, reviewer):
+    from app.graph.engine import GraphEngine
+
+    with SessionLocal() as db:
+        before = get_engine(db)
+    # a ring-device payment, a new-device payment and a P2P transfer to a flagged wallet
+    for body in ({"customer_id": "CUS_0094", "amount": 410.0, "merchant_id": "MER_021", "device_fingerprint": "fp-ring-emulator-02"},
+                 {"customer_id": "CUS_0010", "amount": 35.0, "merchant_id": "MER_002", "device_fingerprint": "fp-incremental-new-01"},
+                 {"customer_id": "CUS_0012", "amount": 120.0, "destination_id": "DST_MULE_01", "device_fingerprint": "fp-incremental-new-02"}):
+        assert client.post("/api/transactions", headers=reviewer, json=body).status_code == 200
+    with SessionLocal() as db:
+        live = get_engine(db)
+        assert live is before  # updated in place, not rebuilt
+        fresh = GraphEngine(db, -1)
+    assert live.summary() == fresh.summary()
+    assert sorted(map(str, live.shared_devices)) == sorted(map(str, fresh.shared_devices))
+    assert sorted(map(str, live.flagged_destinations)) == sorted(map(str, fresh.flagged_destinations))
+    for cid in ("CUS_0094", "CUS_0010", "CUS_0012", "CUS_0003"):
+        assert live.customer_signals(cid)["graph_risk_score"] == fresh.customer_signals(cid)["graph_risk_score"]
+
+
 def test_agent_tools_return_real_records(client):
     with SessionLocal() as db:
         txn = db.execute(select(Transaction).where(Transaction.customer_id == "CUS_0003")

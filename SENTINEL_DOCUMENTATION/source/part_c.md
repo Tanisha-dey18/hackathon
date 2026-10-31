@@ -139,9 +139,9 @@ This is the clearest demonstration of the project's thesis: the transaction look
 
 ## 15.1 Automated test suite
 
-The backend has 23 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
+The backend has 24 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
 
-Latest run: **23 passed, 0 failed (17.75 s)**.
+Latest run: **24 passed, 0 failed (34.7 s)**.
 
 | Test | Area | Checks |
 |---|---|---|
@@ -151,6 +151,7 @@ Latest run: **23 passed, 0 failed (17.75 s)**.
 | test_transaction_creation_and_assessment | API | 401 unauthenticated, 403 shopper; risk payload; CLEARED status; audit entry; 422 on negative amount |
 | test_anomalous_amount_escalates | Risk policy | Demo B is MEDIUM or higher and held; amount factor present |
 | test_graph_detects_fraud_structures | Graph | DEV_0147 shared; 4-account cycle; both mule wallets; clean customer has no signals; evidence on edges; 404 unknown entity |
+| test_incremental_graph_matches_full_rebuild | Graph | In-place graph updates match a full rebuild from the database |
 | test_agent_tools_return_real_records | AI tools | Tools return real records; ToolError on unknown IDs; report tool drops invented and uncited findings; invalid recommendation normalised |
 | test_investigation_workflow_deterministic_fallback | Agent workflow | All 7 tools run; labelled fallback; findings cite real keys; agent does not move money |
 | test_rbac_and_auth | Security | 401 / 403 rules; forged token rejected; admin-only policy update |

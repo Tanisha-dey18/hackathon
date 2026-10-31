@@ -152,6 +152,11 @@ def graph_investigation_tool(db: Session, entity_id: str, transaction_id: str | 
     """GraphInvestigationTool: shared devices, flagged destinations, cycles and cluster membership."""
     eng = get_engine(db)
     t = db.get(Transaction, transaction_id) if transaction_id else None
+    with eng.lock:
+        return _graph_signals(eng, entity_id, t)
+
+
+def _graph_signals(eng, entity_id: str, t) -> dict:
     if entity_id.startswith("CUS_"):
         sig = eng.customer_signals(entity_id, t.device_id if t else None, t.destination_id if t else None)
     elif entity_id.startswith("DEV_"):

@@ -6,7 +6,7 @@
 
 ## 2. 60-second technical explanation
 
-"It's a FastAPI backend with a React and TypeScript frontend. The storefront creates real PayPal Orders v2 orders on the server. When the buyer approves, the backend fetches the order from PayPal, checks the amount and that it belongs to the shopper, and computes 26 point-in-time features. It scores them with the primary model. I train Logistic Regression, Random Forest and XGBoost and pick the one with the best hold-out PR-AUC, which turned out to be Random Forest at 0.897 on synthetic data. There's also an Isolation Forest and SHAP explanations. NetworkX detects shared devices, money loops and clusters, and those signals can push a payment to HIGH. Captures are exactly-once thanks to a database compare-and-set lock plus PayPal-Request-Id. The capture function itself refuses anything that isn't LOW risk or reviewer-approved. High-risk payments go to a LangGraph agent whose findings must cite tool-produced evidence. There are 23 pytest tests, including the payment safety rules."
+"It's a FastAPI backend with a React and TypeScript frontend. The storefront creates real PayPal Orders v2 orders on the server. When the buyer approves, the backend fetches the order from PayPal, checks the amount and that it belongs to the shopper, and computes 26 point-in-time features. It scores them with the primary model. I train Logistic Regression, Random Forest and XGBoost and pick the one with the best hold-out PR-AUC, which turned out to be Random Forest at 0.897 on synthetic data. There's also an Isolation Forest and SHAP explanations. NetworkX detects shared devices, money loops and clusters, and those signals can push a payment to HIGH. Captures are exactly-once thanks to a database compare-and-set lock plus PayPal-Request-Id. The capture function itself refuses anything that isn't LOW risk or reviewer-approved. High-risk payments go to a LangGraph agent whose findings must cite tool-produced evidence. There are 24 pytest tests, including the payment safety rules."
 
 ## 3. Two-minute interview explanation
 
@@ -22,7 +22,7 @@ The limitations are honest ones. The data is synthetic, and I still need to run 
 
 ## 4. Resume bullets
 
-- Built **Sentinel**, a FastAPI + React payment risk layer that gates **PayPal Orders v2** captures. It provides exactly-once capture (DB compare-and-set lock + PayPal-Request-Id), ownership and amount verification, and human approval for high-risk payments; backed by 23 automated tests.
+- Built **Sentinel**, a FastAPI + React payment risk layer that gates **PayPal Orders v2** captures. It provides exactly-once capture (DB compare-and-set lock + PayPal-Request-Id), ownership and amount verification, and human approval for high-risk payments; backed by 24 automated tests.
 - Engineered 26 **point-in-time features** and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest, selecting by hold-out **PR-AUC (0.897 on synthetic data)**, with **SHAP** explanations rendered as reviewer-readable reasons.
 - Implemented **NetworkX** fraud-ring detection (shared devices, money cycles, clusters) and a **LangGraph** investigation agent with 7 tools and evidence-validated reports; added a SHA-256 hash-chained audit log.
 

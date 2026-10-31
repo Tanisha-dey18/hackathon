@@ -58,7 +58,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 **Deeper explanation:** Holding gives a human the chance to verify. The policy is configurable if a business wants a stricter setup.
 
 ### Q14. How do you know it works?
-**Short answer:** 23 automated tests pass, and the models are evaluated on held-out data.
+**Short answer:** 24 automated tests pass, and the models are evaluated on held-out data.
 **Deeper explanation:** Hold-out PR-AUC of the primary model is 0.897 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
 
 ### Q15. What happens if PayPal is down?
@@ -67,7 +67,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q16. How long does a risk check take?
 **Short answer:** Each assessment's latency is measured and stored; the dashboard shows the average.
-**Deeper explanation:** In development the average over the first live assessments was under a second, but it included cold-start model loading. No proper performance test was run.
+**Deeper explanation:** On the development laptop the median was about 175 ms over 8 consecutive assessments; the first one after start-up takes about 0.7 s while the model and SHAP explainer load. That's a micro-benchmark, not a load test.
 
 ### Q17. What is the audit trail and why does it matter?
 **Short answer:** A record of every action that is hash-chained, so changes are detectable.

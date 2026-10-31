@@ -59,9 +59,10 @@ def get_investigation(inv_id: str, db: Session = Depends(get_db), _: User = Depe
 @router.get("/api/graph/overview", tags=["graph"], summary="Suspicious clusters, rings and flagged destinations")
 def graph_overview(db: Session = Depends(get_db), _: User = Depends(require_staff)):
     eng = get_engine(db)
-    return {"summary": eng.summary(), "clusters": [c for c in eng.clusters if c["suspicious"]],
-            "shared_devices": eng.shared_devices, "cycles": eng.cycles,
-            "flagged_destinations": eng.flagged_destinations, "graph": eng.overview()}
+    with eng.lock:
+        return {"summary": eng.summary(), "clusters": [c for c in eng.clusters if c["suspicious"]],
+                "shared_devices": eng.shared_devices, "cycles": eng.cycles,
+                "flagged_destinations": eng.flagged_destinations, "graph": eng.overview()}
 
 
 @router.get("/api/graph/entity/{entity_id}", tags=["graph"])

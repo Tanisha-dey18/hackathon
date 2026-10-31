@@ -197,7 +197,7 @@ The validator drops findings that cite no valid evidence key, normalises the rec
 
 ```mermaid
 flowchart LR
-  TX["transactions"] -->|sync_transaction / rebuild| GT[("graph_entities<br/>graph_relationships")]
+  TX["transactions"] -->|sync_transaction (incremental)| GT[("graph_entities<br/>graph_relationships")]
   GT --> NX["NetworkX DiGraph"]
   NX --> PJ["Entity projection<br/>customer-device-destination-merchant"]
   PJ --> SD["shared devices (>= 3 customers)"]
