@@ -2,7 +2,7 @@
 
 The rules require a **public YouTube video under 3 minutes** showing the project working. Judges are not required to watch past 3:00, so aim for **2:45**.
 
-Everything below uses features that exist in the app. Segment 2 has two versions:
+Everything below uses features that exist in the app. Quoted scores come from a fresh database; your run may differ slightly with the time of day, so read the numbers off the screen as you narrate. Segment 2 has two versions:
 
 - **Version A (preferred)** needs PayPal Sandbox credentials in `.env`.
 - **Version B** is honest about PayPal not being configured. If you use it, say so on camera.

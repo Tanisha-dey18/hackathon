@@ -26,7 +26,7 @@ When you pay with PayPal online, two things happen: you **approve** the payment,
 | LangGraph | Agent workflow library | Clear, testable multi-step investigation |
 | Groq | LLM API (optional) | Fast tool-calling LLM for the analysis step |
 | bcrypt, PyJWT | Security libraries | Password hashing, signed login tokens |
-| Docker, Render | Deployment | Reproducible environment; one-click cloud blueprint (configured, not deployed) |
+| Docker, Render | Deployment | Reproducible environment; the backend runs on Render's free plan from a blueprint; the frontend is on Netlify |
 
 ## The ML models in one paragraph each
 

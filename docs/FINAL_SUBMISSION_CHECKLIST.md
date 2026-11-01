@@ -22,7 +22,7 @@ Status key: **COMPLETE**, **INCOMPLETE**, **NEEDS VERIFICATION**, **NOT APPLICAB
 | Uses PayPal developer platform (Sandbox) centrally | **NEEDS VERIFICATION** | Orders v2, capture, webhooks and the JS SDK are implemented and tested with a mock; **no live Sandbox order has been made yet**. Stage One is pass/fail on applying the required APIs, so run it live. |
 | Uses an AI tool/model | COMPLETE | scikit-learn / XGBoost / SHAP / LangGraph (Groq optional) |
 | Functional demo: setup and run instructions | COMPLETE | README §15–17, verified locally |
-| Functional demo: hosted URL | NOT APPLICABLE (optional) | Rules accept setup instructions instead; deploying via `render.yaml` would add a URL and Render prize eligibility |
+| Functional demo: hosted URL | COMPLETE | https://sentinel-payment-risk.netlify.app (frontend, Netlify) + https://sentinel-api-wz6x.onrender.com (backend, Render free plan, sleeps when idle) |
 | Public code repository | COMPLETE | https://github.com/Tanisha-dey18/hackathon (public) |
 | Repository contains all source, assets, instructions | COMPLETE | |
 | Open-source license visible in About | COMPLETE | GitHub detects MIT |
@@ -70,5 +70,5 @@ Status key: **COMPLETE**, **INCOMPLETE**, **NEEDS VERIFICATION**, **NOT APPLICAB
 4. **Update the two [UPDATE IF VERIFIED] lines** in `docs/DEVPOST_SUBMISSION.md` with what actually happened.
 5. **Decide how judges get PayPal access**: their own Sandbox app (already documented), or your Sandbox credentials in the private Devpost testing field.
 6. **Set the GitHub About description and topics**, and add a cover image.
-7. Optional: add a Groq key and run one LLM-mode investigation; optionally deploy with `render.yaml` for a hosted URL and Render prize eligibility.
+7. Optional: add a Groq key and run one LLM-mode investigation. The hosted demo is live on Render + Netlify; you can enter the **Best Use of Render** sponsor prize. Add PayPal Sandbox keys in the Render dashboard to make live checkout work on the hosted site.
 8. Submit before **12 Nov 2026, 12:00 PT**, ideally a day early.

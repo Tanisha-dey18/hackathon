@@ -46,7 +46,7 @@ PayPal's Orders API separates two moments that most people think of as one: the 
 - **ML**: scikit-learn, XGBoost and SHAP on a deterministic synthetic dataset (2,000 transactions, 142 labelled frauds) with a stratified hold-out set.
 - **Graph**: NetworkX over relationships stored in the database.
 - **Agent**: LangGraph state machine; Groq tool calling when a key is configured, a clearly labelled rule-based fallback otherwise.
-- **Tests**: 25 pytest tests, including the payment safety rules, run against a mock PayPal transport.
+- **Tests**: 26 pytest tests, including the payment safety rules, run against a mock PayPal transport.
 
 ### How we use AI
 
@@ -111,7 +111,7 @@ python, fastapi, pydantic, sqlalchemy, alembic, postgresql, sqlite, redis, sciki
 - Best Use of PayPal + AI
 - Best Use of Agentic Commerce (the agent investigates payments but only recommends; frame it honestly)
 - Best Use of AG Grid (sponsor prize: AG Grid powers the Live Transactions explorer)
-- Best Use of Render: **only if you actually deploy** with the included `render.yaml`
+- Best Use of Render: the backend is deployed on Render from `render.yaml` (Docker image seeded at build time)
 
 Tags: fintech, fraud-detection, payments, explainable-ai, graph-analytics, agentic-ai, human-in-the-loop
 
@@ -127,13 +127,13 @@ Sentinel works in the moment between "the buyer said yes" and "the money moved".
 |---|---|
 | Public repository | https://github.com/Tanisha-dey18/hackathon |
 | Demo video (YouTube, public, under 3 min) | **TODO**: upload and paste link |
-| Hosted demo URL | None. Judges run it locally using the README (allowed by the rules) |
+| Hosted demo URL | https://sentinel-payment-risk.netlify.app (backend on Render's free plan: the first visit after idle takes about a minute) |
 | License | MIT (repository root) |
 
 ## Testing instructions (paste into Devpost)
 
-1. Follow README sections 15–17: install the Python and Node dependencies, copy `.env.example` to `.env`, start the backend and the frontend.
-2. Open http://localhost:5173/login. All demo accounts use the password `SentinelDemo!2026` (synthetic accounts).
+1. **Hosted:** open https://sentinel-payment-risk.netlify.app/login (wait up to a minute on first load while the free Render backend wakes up). **Local:** follow README sections 15–17 and open http://localhost:5173/login.
+2. Sign in. All demo accounts use the password `SentinelDemo!2026` (synthetic accounts).
 3. Sign in as `reviewer@sentinel.dev`, open **Command Centre** and click **Run risk pipeline** on scenarios A, B and C. Open the investigation workspace for C, review the evidence and use **Reject** or **Approve** (re-enter the password and type the transaction ID).
 4. **PayPal checkout**: create a free Sandbox REST app at developer.paypal.com, put its Client ID and Secret in `.env`, restart the backend, then click **PayPal checkout** on scenario A or C and approve with a Sandbox *personal* account. **[Optionally provide your own Sandbox app credentials and a Sandbox buyer login in the private Devpost testing field. Never put them in the repository.]**
 5. Swagger: http://localhost:8000/docs. Tests: `backend\.venv\Scripts\python -m pytest -q backend\tests`.

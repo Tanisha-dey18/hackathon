@@ -16,13 +16,13 @@ Repository: https://github.com/Tanisha-dey18/hackathon. Checked on 31 Oct 2026 b
 | Clear folder structure | ✅ COMPLETE | `backend/`, `frontend/`, `docs/`, `SENTINEL_DOCUMENTATION/`, `scripts/` |
 | Installation instructions | ✅ COMPLETE | README §15–17 (PowerShell, cmd and bash compatible) |
 | Frontend/backend run instructions | ✅ COMPLETE | Verified locally |
-| Test instructions | ✅ COMPLETE | README §20; 25/25 pass |
+| Test instructions | ✅ COMPLETE | README §20; 26/26 pass |
 | Screenshots | ✅ COMPLETE (partial set) | 17 genuine captures; PayPal Sandbox result screens still missing (needs credentials) |
 | Documentation | ✅ COMPLETE | `docs/` and the PDF set |
 | Correct project links | ✅ COMPLETE | README clone URL and documentation links point at this repository |
 | Repository "About" description | ❌ INCOMPLETE | Empty. Set it on GitHub (gear icon next to About): use the text below |
 | Topics | ❌ INCOMPLETE | None set. Suggested: `paypal`, `fraud-detection`, `fastapi`, `react`, `machine-learning`, `xgboost`, `shap`, `networkx`, `langgraph`, `ag-grid`, `hackathon` |
-| Website link in About | ⬜ NOT APPLICABLE | No hosted demo yet |
+| Website link in About | ❌ INCOMPLETE | Set it to https://sentinel-payment-risk.netlify.app |
 
 **About description (paste):** AI payment risk layer for PayPal Sandbox: ML + SHAP, graph fraud-ring detection, LangGraph investigator, human-approved capture, hash-chained audit. FastAPI + React.
 

@@ -201,7 +201,7 @@ Three supported ways to run Sentinel:
 |---|---|---|
 | Local | Uvicorn + Vite dev server, SQLite, in-memory rate limiting | Run and verified during development |
 | Docker Compose | PostgreSQL 16, Redis 7, backend container, nginx serving the built frontend and proxying `/api` and `/ws` | Configuration written; not run during development because Docker was not running on the build machine |
-| Render Blueprint | Managed PostgreSQL, Docker web service for the API, static site for the frontend | Configuration written; not deployed |
+| Render + Netlify (live) | Render free web service built from `Dockerfile.render` (SQLite seeded at build time, shifted to today on start) + Netlify static frontend | **Live** at https://sentinel-payment-risk.netlify.app since 1 Nov 2026 |
 
 On hosts with ephemeral disks, the backend retrains automatically at start-up if the active model file is missing.
 

@@ -277,4 +277,4 @@ flowchart LR
 |---|---|
 | Local: Uvicorn + Vite, SQLite, in-memory limits | Running and verified |
 | Docker Compose: postgres:16, redis:7, backend, nginx frontend | Configured, not run on the build machine |
-| Render Blueprint: managed PostgreSQL, Docker API, static site | Configured, not deployed |
+| Render (backend, `Dockerfile.render`, SQLite baked at build) + Netlify (frontend) | **Live**: https://sentinel-payment-risk.netlify.app |

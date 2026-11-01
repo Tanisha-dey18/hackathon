@@ -3,11 +3,13 @@
 **Autonomous AI-powered payment risk intelligence and protection on PayPal.**
 *Every transaction. Every connection. Every risk. Understood.*
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB) ![React 18](https://img.shields.io/badge/react-18-61DAFB) ![PayPal Sandbox](https://img.shields.io/badge/PayPal-Sandbox-003087) ![Tests: 25 passing](https://img.shields.io/badge/tests-25%20passing-2ea44f)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB) ![React 18](https://img.shields.io/badge/react-18-61DAFB) ![PayPal Sandbox](https://img.shields.io/badge/PayPal-Sandbox-003087) ![Tests: 25 passing](https://img.shields.io/badge/tests-26%20passing-2ea44f)
 
 Sentinel is a payment protection layer that sits between a buyer approving a PayPal checkout and the merchant capturing the money. It verifies the PayPal order, scores the payment with machine learning and graph intelligence, captures low-risk payments automatically, and **holds everything else until a human reviewer approves it**, with an AI investigation report that cites its evidence.
 
 Built for the **PayPal AI Hackathon 2026**.
+
+**Live demo:** https://sentinel-payment-risk.netlify.app (frontend on Netlify) · API https://sentinel-api-wz6x.onrender.com/docs (Render free plan: the first request after ~15 idle minutes takes about a minute while it wakes up).
 
 > Hackathon prototype. It runs on **PayPal Sandbox** with **synthetic data** only and does not access PayPal's internal fraud systems or real customer data.
 
@@ -57,7 +59,7 @@ Sentinel uses the gap that PayPal's Orders API already provides between **buyer 
 | Command Centre dashboard, live WebSocket updates, AG Grid transaction table, React Flow graph explorer | Implemented |
 | Three demo scenarios + synthetic traffic simulator | Implemented |
 | Docker Compose | Configured; **not run** (no Docker daemon on build machine) |
-| Public deployment (Render backend + Netlify frontend) | In progress: Netlify site created; Render backend pending |
+| Public deployment (Render backend + Netlify frontend) | **Live**: https://sentinel-payment-risk.netlify.app (verified 1 Nov 2026) |
 | Community detection, AUTHORIZE-intent flow, refunds | Future work |
 
 ## 5. Transaction lifecycle
@@ -331,8 +333,8 @@ The frontend is then at http://localhost:8080. The Compose setup is written but 
 
 | Part | Where | Config |
 |---|---|---|
-| Frontend | Netlify: https://sentinel-payment-risk.netlify.app | `netlify.toml` (builds `frontend/`, SPA routing); env `VITE_API_URL` = backend URL |
-| Backend | Render free web service (`sentinel-api`) | `render.yaml` + `backend/Dockerfile.render` |
+| Frontend | Netlify: https://sentinel-payment-risk.netlify.app (live) | `netlify.toml` (builds `frontend/`, SPA routing); env `VITE_API_URL` = backend URL |
+| Backend | Render free web service: https://sentinel-api-wz6x.onrender.com (live) | `render.yaml` + `backend/Dockerfile.render` |
 
 How the backend image works on Render's free plan:
 
@@ -369,7 +371,7 @@ Launch from **Command Centre → Demonstration scenarios**. "Run risk pipeline" 
 | B | Ben (avg ≈ $38) buys a $1,849 ultrabook on a new device | ML 0.066, but 43.4× his average → **MEDIUM**, held for verification, SHAP explains why |
 | C | Cara buys a $500 gift card on an emulator shared by 4 accounts | ML 0.333, graph policy → **HIGH**, agent recommends **REJECT** with 5 evidence-backed findings |
 
-Exact scores change slightly after repeated runs because each run adds history (reset the database for consistent numbers).
+These are the values from a fresh database. The data and models are identical on every seed, but a demo transaction is timestamped *now*, so its score moves a little with the time of day you run it (Demo C scored 0.377 on the live site at another hour). The risk levels and decisions stay the same. Repeated runs also add history, so reset the database before recording.
 
 ## 20. Testing
 
@@ -377,7 +379,7 @@ Exact scores change slightly after repeated runs because each run adds history (
 backend\.venv\Scripts\python -m pytest -q backend\tests
 ```
 
-**Latest result: 25 passed, 0 failed.** The tests run against an isolated database and a **mock PayPal transport** (test-only) and cover:
+**Latest result: 26 passed, 0 failed.** The tests run against an isolated database and a **mock PayPal transport** (test-only) and cover:
 
 - order creation with server prices
 - idempotency

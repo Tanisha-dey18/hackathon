@@ -58,7 +58,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 **Deeper explanation:** Holding gives a human the chance to verify. The policy is configurable if a business wants a stricter setup.
 
 ### Q14. How do you know it works?
-**Short answer:** 25 automated tests pass, and the models are evaluated on held-out data.
+**Short answer:** 26 automated tests pass, and the models are evaluated on held-out data.
 **Deeper explanation:** Hold-out PR-AUC of the primary model is 0.914 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
 
 ### Q15. What happens if PayPal is down?
@@ -173,7 +173,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q42. How is the system deployed?
 **Short answer:** Docker Compose locally, or a Render Blueprint with managed PostgreSQL.
-**Deeper explanation:** The frontend is built and served by nginx (Compose) or as a Render static site. These configurations were written but not deployed during development.
+**Deeper explanation:** The live demo runs the backend on Render's free plan (a Docker image that seeds and trains at build time and uses SQLite) and the frontend on Netlify. Docker Compose with PostgreSQL is configured for local use but was not run on the build machine.
 
 ### Q43. What happens on first start?
 **Short answer:** Migrations run, the synthetic world is generated, models are trained and history is scored.

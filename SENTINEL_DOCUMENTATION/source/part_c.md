@@ -139,14 +139,15 @@ This is the clearest demonstration of the project's thesis: the transaction look
 
 ## 15.1 Automated test suite
 
-The backend has 25 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
+The backend has 26 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
 
-Latest run: **25 passed, 0 failed (32.9 s)**.
+Latest run: **26 passed, 0 failed (31.0 s)**.
 
 | Test | Area | Checks |
 |---|---|---|
 | test_models_trained_with_honest_metrics | ML evaluation | All 4 models trained; metrics in [0,1]; confusion matrix sums to test rows; primary has best PR-AUC |
 | test_ml_prediction_structure | ML prediction | Probability and anomaly in [0,1]; SHAP for every feature; positive top factors; missing values kept as null |
+| test_baked_image_data_shifts_to_today | Deployment | Data baked into the image is shifted to end today, exactly |
 | test_synthetic_world_is_independent_of_seed_time | Reproducibility | Same data whatever day or time the database is seeded |
 | test_risk_classification_policy | Risk classification | Threshold mapping; escalation never lowers risk |
 | test_transaction_creation_and_assessment | API | 401 unauthenticated, 403 shopper; risk payload; CLEARED status; audit entry; 422 on negative amount |
@@ -189,7 +190,7 @@ Latest run: **25 passed, 0 failed (32.9 s)**.
 | Live webhooks | Requires a public URL and webhook ID |
 | Groq LLM investigation | No API key; fallback path tested instead |
 | Docker Compose and PostgreSQL at runtime | Docker daemon was not running on the build machine |
-| Render deployment | Not deployed |
+| PayPal / Groq on the hosted deployment | Keys not configured on Render |
 | Load and performance testing | Not performed |
 | Frontend automated tests | None written |
 

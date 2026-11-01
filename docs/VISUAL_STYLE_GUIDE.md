@@ -35,5 +35,5 @@ Logo mark: a shield outline with a dot (`frontend/public/sentinel.svg`), cyan on
 - **Arrows**: browser → API (REST + WebSocket); gateway ↔ PayPal (HTTPS); PayPal → API (signed webhooks); agent → Groq; everything → database.
 - **Colour coding**: amber for the payment path (gateway, risk, PayPal), green for audit, cyan for browser components.
 - **Required labels**: "capture only on LOW or reviewer APPROVE", "PayPal-Request-Id + compare-and-set lock", "agent recommends only".
-- **Mark as optional** (dashed outline): Groq, Redis. **Mark as configured, not deployed**: Docker / Render.
+- **Mark as optional** (dashed outline): Groq, Redis. **Show the live deployment**: Render (backend) and Netlify (frontend).
 - **Ready-made versions**: Mermaid in `docs/SENTINEL_TECHNICAL_ARCHITECTURE.md`; SVG in `SENTINEL_DOCUMENTATION/assets/diagrams/architecture.svg`.

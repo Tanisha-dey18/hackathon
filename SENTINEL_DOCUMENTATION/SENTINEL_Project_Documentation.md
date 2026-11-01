@@ -221,7 +221,7 @@ Three supported ways to run Sentinel:
 |---|---|---|
 | Local | Uvicorn + Vite dev server, SQLite, in-memory rate limiting | Run and verified during development |
 | Docker Compose | PostgreSQL 16, Redis 7, backend container, nginx serving the built frontend and proxying `/api` and `/ws` | Configuration written; not run during development because Docker was not running on the build machine |
-| Render Blueprint | Managed PostgreSQL, Docker web service for the API, static site for the frontend | Configuration written; not deployed |
+| Render + Netlify (live) | Render free web service built from `Dockerfile.render` (SQLite seeded at build time, shifted to today on start) + Netlify static frontend | **Live** at https://sentinel-payment-risk.netlify.app since 1 Nov 2026 |
 
 On hosts with ephemeral disks, the backend retrains automatically at start-up if the active model file is missing.
 
@@ -964,14 +964,15 @@ This is the clearest demonstration of the project's thesis: the transaction look
 
 ## 15.1 Automated test suite
 
-The backend has 25 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
+The backend has 26 automated tests (`pytest`) in `backend/tests`. They run against an isolated SQLite database that is seeded, trained and scored from scratch, and a **mock PayPal transport** that emulates Sandbox behaviour (OAuth, Orders v2, capture with `PayPal-Request-Id`, `ORDER_ALREADY_CAPTURED`, webhook verification). The mock is only used by tests.
 
-Latest run: **25 passed, 0 failed (32.9 s)**.
+Latest run: **26 passed, 0 failed (31.0 s)**.
 
 | Test | Area | Checks |
 |---|---|---|
 | test_models_trained_with_honest_metrics | ML evaluation | All 4 models trained; metrics in [0,1]; confusion matrix sums to test rows; primary has best PR-AUC |
 | test_ml_prediction_structure | ML prediction | Probability and anomaly in [0,1]; SHAP for every feature; positive top factors; missing values kept as null |
+| test_baked_image_data_shifts_to_today | Deployment | Data baked into the image is shifted to end today, exactly |
 | test_synthetic_world_is_independent_of_seed_time | Reproducibility | Same data whatever day or time the database is seeded |
 | test_risk_classification_policy | Risk classification | Threshold mapping; escalation never lowers risk |
 | test_transaction_creation_and_assessment | API | 401 unauthenticated, 403 shopper; risk payload; CLEARED status; audit entry; 422 on negative amount |
@@ -1014,7 +1015,7 @@ Latest run: **25 passed, 0 failed (32.9 s)**.
 | Live webhooks | Requires a public URL and webhook ID |
 | Groq LLM investigation | No API key; fallback path tested instead |
 | Docker Compose and PostgreSQL at runtime | Docker daemon was not running on the build machine |
-| Render deployment | Not deployed |
+| PayPal / Groq on the hosted deployment | Keys not configured on Render |
 | Load and performance testing | Not performed |
 | Frontend automated tests | None written |
 
@@ -1128,7 +1129,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 **Deeper explanation:** Holding gives a human the chance to verify. The policy is configurable if a business wants a stricter setup.
 
 ### Q14. How do you know it works?
-**Short answer:** 25 automated tests pass, and the models are evaluated on held-out data.
+**Short answer:** 26 automated tests pass, and the models are evaluated on held-out data.
 **Deeper explanation:** Hold-out PR-AUC of the primary model is 0.914 on synthetic data. Live PayPal Sandbox and Groq paths have not yet been run with real credentials.
 
 ### Q15. What happens if PayPal is down?
@@ -1243,7 +1244,7 @@ Each question has a **short answer** (say this first), a **deeper explanation** 
 
 ### Q42. How is the system deployed?
 **Short answer:** Docker Compose locally, or a Render Blueprint with managed PostgreSQL.
-**Deeper explanation:** The frontend is built and served by nginx (Compose) or as a Render static site. These configurations were written but not deployed during development.
+**Deeper explanation:** The live demo runs the backend on Render's free plan (a Docker image that seeds and trains at build time and uses SQLite) and the frontend on Netlify. Docker Compose with PostgreSQL is configured for local use but was not run on the build machine.
 
 ### Q43. What happens on first start?
 **Short answer:** Migrations run, the synthetic world is generated, models are trained and history is scored.
@@ -1542,7 +1543,7 @@ Sentinel is a payment layer on top of PayPal. Our demo shop creates a real PayPa
 
 Then the graph. We store every relationship between customers, devices, wallets and merchants, and NetworkX finds shared devices, money loops and clusters. In our third demo the model only gave about 0.33, but the device was shared with three other accounts paying flagged wallets, so the policy raised it to HIGH.
 
-High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 25 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
+High-risk payments get an AI investigation built with LangGraph: seven tools collect evidence, and every finding has to cite an evidence item or it is removed. The agent can only recommend. A reviewer re-enters their password and approves, rejects or escalates, and only an approval lets PayPal capture. There are 26 automated tests, including ones that prove a high-risk payment can't be captured without approval and nothing is captured twice."
 
 ## 20.3 Five-minute technical explanation
 
@@ -1562,11 +1563,11 @@ High-risk payments get an AI investigation built with LangGraph: seven tools col
 
 **Agent:** a nine-node LangGraph workflow. Evidence is generated deterministically from tool outputs; Groq can call more tools and must submit a structured report; a validator drops uncited findings; if Groq isn't available there's a labelled rule-based fallback.
 
-**Audit and tests:** a SHA-256 hash-chained audit log with verification. 25 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
+**Audit and tests:** a SHA-256 hash-chained audit log with verification. 26 pytest tests with a mock PayPal transport. What I haven't verified yet is live Sandbox and live Groq, because I didn't have credentials on the build machine, and the models are only validated on synthetic data."
 
 ## 20.4 Resume description
 
-**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.914 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 25 automated tests.
+**Sentinel: AI payment risk platform on PayPal (PayPal AI Hackathon 2026).** Built a full-stack payment protection layer (FastAPI, React/TypeScript) that risk-gates PayPal Orders v2 captures. Implemented point-in-time feature engineering and compared Random Forest, XGBoost, Logistic Regression and Isolation Forest (primary selected by hold-out PR-AUC 0.914 on synthetic data) with SHAP explanations; NetworkX graph detection of shared-device rings and circular payments; a LangGraph investigation agent with evidence-validated reports; idempotent, bypass-proof capture; and a hash-chained audit log. 26 automated tests.
 
 ## 20.5 LinkedIn description
 
@@ -1613,7 +1614,7 @@ Fraud checks usually score one payment at a time and give no reasons. Organised 
 | Other models | XGBoost PR-AUC 0.903; Logistic Regression 0.911; Isolation Forest 0.862 |
 | Graph findings | 2 shared devices, 1 four-account money loop ($16,064), 2 flagged mule wallets, 4 suspicious clusters |
 | Demo C | ML score 0.333 alone; graph raised it to HIGH; agent recommended REJECT with 5 evidence-backed findings |
-| Automated tests | 25 passed, 0 failed |
+| Automated tests | 26 passed, 0 failed |
 
 ## What makes it different
 
@@ -1630,4 +1631,4 @@ React, TypeScript, Vite, Tailwind, Recharts, React Flow, AG Grid, TanStack Query
 
 | Verified | Not yet verified |
 |---|---|
-| Full app running locally; 25 tests; UI walkthrough; hold-out ML metrics; PostgreSQL DDL generation | Live PayPal Sandbox capture (no credentials on build machine); Groq LLM path (fallback used); Docker/Render runtime |
+| Full app locally and live at https://sentinel-payment-risk.netlify.app (Render backend); 26 tests; UI walkthrough; hold-out ML metrics | Live PayPal Sandbox capture (no credentials yet); Groq LLM path (fallback used); Docker Compose with PostgreSQL |
