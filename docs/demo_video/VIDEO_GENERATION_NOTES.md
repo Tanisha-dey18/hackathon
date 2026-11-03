@@ -12,6 +12,7 @@ scripts in `SENTINEL_Video_Assets/`.
 | `SENTINEL_Voiceover_Script.txt` | The narration, scene by scene |
 | `SENTINEL_Subtitles.srt` | The same captions as a sidecar file (for YouTube/Devpost upload) |
 | `SENTINEL_Thumbnail.png` | 1920×1080 thumbnail; the graph panel is a real frame from the recording |
+| `SENTINEL_Gallery/` | Eight 1800×1200 (3:2) captioned Devpost gallery images, each built from a frame of the recorded footage |
 | `SENTINEL_Video_Assets/` | Narration text, scripts, voice audio, raw footage and timings |
 
 ## Tools
@@ -53,6 +54,7 @@ From the repo root:
    python tts.py          # narration.json -> audio/*.mp3 + sentence timings
    python record.py       # real app footage -> footage/*.webm + timing.json
    python build_video.py  # cards, music, subtitles, final mix -> ../SENTINEL_Hackathon_Demo.mp4
+   python gallery.py      # Devpost gallery images -> ../SENTINEL_Gallery/*.jpg
    ```
    `record.py` must run on a freshly reset database, because the scenes depend on each other (Demo C is investigated,
    then rejected).
