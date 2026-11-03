@@ -1,0 +1,30 @@
+{
+ "s2_solution": {
+  "trim_start": 12.07,
+  "length": 20.88
+ },
+ "s3_paypal": {
+  "trim_start": 3.13,
+  "length": 27.6
+ },
+ "s4_ml": {
+  "trim_start": 3.14,
+  "length": 23.58
+ },
+ "s5_graph": {
+  "trim_start": 2.77,
+  "length": 27.3
+ },
+ "s6_agent": {
+  "trim_start": 3.7,
+  "length": 26.27
+ },
+ "s7_review": {
+  "trim_start": 4.54,
+  "length": 18.96
+ },
+ "s8_close": {
+  "trim_start": 2.76,
+  "length": 22.48
+ }
+}

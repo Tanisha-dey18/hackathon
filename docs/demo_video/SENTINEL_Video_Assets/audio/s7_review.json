@@ -1,0 +1,17 @@
+[
+ {
+  "start": 0.1,
+  "end": 3.075,
+  "text": "A person makes the final call."
+ },
+ {
+  "start": 3.025,
+  "end": 11.0875,
+  "text": "The reviewer re-enters their password, types the transaction ID, and approves, rejects, or escalates."
+ },
+ {
+  "start": 11.0875,
+  "end": 15.0625,
+  "text": "Only an approval would let PayPal capture the funds."
+ }
+]

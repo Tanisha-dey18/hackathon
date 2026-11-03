@@ -24,3 +24,8 @@ scripts/.import-check.txt
 
 # build caches
 *.tsbuildinfo
+
+# demo video build intermediates (regenerable) and locally copied fonts (Microsoft-licensed)
+docs/demo_video/SENTINEL_Video_Assets/fonts/
+docs/demo_video/SENTINEL_Video_Assets/generated/
+docs/demo_video/SENTINEL_Video_Assets/footage/_raw/

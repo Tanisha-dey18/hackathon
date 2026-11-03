@@ -1,0 +1,17 @@
+[
+ {
+  "start": 0.1,
+  "end": 3.675,
+  "text": "At its core is PayPal's Orders API."
+ },
+ {
+  "start": 3.625,
+  "end": 14.5375,
+  "text": "Our demo marketplace creates a PayPal Sandbox order on the server, and Sentinel scores the payment after the buyer approves it, before any money is captured."
+ },
+ {
+  "start": 14.5375,
+  "end": 22.975,
+  "text": "Our Sandbox keys aren't configured in this recording, so checkout says so clearly, instead of faking a payment."
+ }
+]

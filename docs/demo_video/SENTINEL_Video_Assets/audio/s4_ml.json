@@ -1,0 +1,22 @@
+[
+ {
+  "start": 0.1,
+  "end": 3.8625,
+  "text": "Ben usually spends about thirty-eight dollars."
+ },
+ {
+  "start": 3.8125,
+  "end": 8.775,
+  "text": "Now he's buying an eighteen hundred dollar laptop on a new device."
+ },
+ {
+  "start": 8.775,
+  "end": 14.275,
+  "text": "The model scores the payment, and SHAP shows which factors drove that score."
+ },
+ {
+  "start": 14.275,
+  "end": 19.6875,
+  "text": "At forty-three times his average, the policy holds it for verification."
+ }
+]

@@ -1,0 +1,17 @@
+[
+ {
+  "start": 0.1,
+  "end": 4.375,
+  "text": "Sentinel is an AI-powered payment risk platform."
+ },
+ {
+  "start": 4.325,
+  "end": 13.725,
+  "text": "It combines machine learning, graph intelligence, and an AI investigation agent, to flag suspicious payments and explain them."
+ },
+ {
+  "start": 13.725,
+  "end": 16.6125,
+  "text": "All the data here is synthetic."
+ }
+]

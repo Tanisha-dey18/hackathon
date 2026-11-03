@@ -1,0 +1,162 @@
+1
+00:00:00,600 --> 00:00:05,425
+Online payments are part of
+everyday life, and so is fraud.
+
+2
+00:00:05,375 --> 00:00:11,550
+Spotting suspicious activity quickly, and
+understanding why it happened, is hard.
+
+3
+00:00:11,550 --> 00:00:14,275
+That's where Sentinel comes in.
+
+4
+00:00:15,275 --> 00:00:19,550
+Sentinel is an AI-powered
+payment risk platform.
+
+5
+00:00:19,500 --> 00:00:25,742
+It combines machine learning, graph
+intelligence, and an AI investigation agent, to
+
+6
+00:00:25,742 --> 00:00:28,900
+flag suspicious payments and explain them.
+
+7
+00:00:28,900 --> 00:00:31,788
+All the data here is synthetic.
+
+8
+00:00:32,788 --> 00:00:36,362
+At its core is PayPal's Orders API.
+
+9
+00:00:36,312 --> 00:00:41,839
+Our demo marketplace creates a PayPal
+Sandbox order on the server, and Sentinel
+
+10
+00:00:41,839 --> 00:00:47,225
+scores the payment after the buyer
+approves it, before any money is captured.
+
+11
+00:00:47,225 --> 00:00:53,515
+Our Sandbox keys aren't configured in this
+recording, so checkout says so clearly,
+
+12
+00:00:53,515 --> 00:00:55,663
+instead of faking a payment.
+
+13
+00:00:56,663 --> 00:01:00,425
+Ben usually spends about
+thirty-eight dollars.
+
+14
+00:01:00,375 --> 00:01:05,338
+Now he's buying an eighteen hundred
+dollar laptop on a new device.
+
+15
+00:01:05,338 --> 00:01:10,838
+The model scores the payment, and SHAP
+shows which factors drove that score.
+
+16
+00:01:10,838 --> 00:01:16,250
+At forty-three times his average,
+the policy holds it for verification.
+
+17
+00:01:17,250 --> 00:01:20,138
+Fraud often isn't isolated.
+
+18
+00:01:20,088 --> 00:01:26,812
+Sentinel builds a graph of customers,
+devices, merchants, and payment destinations.
+
+19
+00:01:26,812 --> 00:01:32,013
+To the model alone, Cara's gift
+card looked only medium risk.
+
+20
+00:01:32,013 --> 00:01:37,460
+But her phone is shared with three other
+accounts that pay flagged wallets, so the
+
+21
+00:01:37,460 --> 00:01:38,988
+risk is raised to high.
+
+22
+00:01:39,987 --> 00:01:44,612
+High-risk payments go to
+the AI investigation agent.
+
+23
+00:01:44,562 --> 00:01:50,042
+It runs seven tools, and writes a report
+where every finding must cite real
+
+24
+00:01:50,042 --> 00:01:50,700
+evidence.
+
+25
+00:01:50,700 --> 00:01:56,923
+No language model key is configured
+here, so it uses its labelled, rule-based
+
+26
+00:01:56,923 --> 00:01:57,650
+fallback.
+
+27
+00:01:57,650 --> 00:02:01,725
+It recommends rejecting,
+but it can't move money.
+
+28
+00:02:02,725 --> 00:02:05,700
+A person makes the final call.
+
+29
+00:02:05,650 --> 00:02:11,939
+The reviewer re-enters their password,
+types the transaction ID, and approves,
+
+30
+00:02:11,939 --> 00:02:13,713
+rejects, or escalates.
+
+31
+00:02:13,713 --> 00:02:17,688
+Only an approval would let
+PayPal capture the funds.
+
+32
+00:02:18,688 --> 00:02:22,763
+Every step goes into a
+tamper-evident audit log.
+
+33
+00:02:22,713 --> 00:02:28,839
+Sentinel brings machine learning, connected
+data, and AI investigation together, to
+
+34
+00:02:28,839 --> 00:02:32,825
+make digital payments safer,
+and easier to understand.
+
+35
+00:02:32,825 --> 00:02:34,400
+Thank you.

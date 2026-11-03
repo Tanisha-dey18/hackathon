@@ -1,0 +1,22 @@
+[
+ {
+  "start": 0.1,
+  "end": 4.725,
+  "text": "High-risk payments go to the AI investigation agent."
+ },
+ {
+  "start": 4.675,
+  "end": 10.8125,
+  "text": "It runs seven tools, and writes a report where every finding must cite real evidence."
+ },
+ {
+  "start": 10.8125,
+  "end": 17.7625,
+  "text": "No language model key is configured here, so it uses its labelled, rule-based fallback."
+ },
+ {
+  "start": 17.7625,
+  "end": 21.8375,
+  "text": "It recommends rejecting, but it can't move money."
+ }
+]

@@ -1,0 +1,25 @@
+SENTINEL demo voiceover (en-IN-NeerjaNeural, rate +0%)
+
+[00:00:00] s1_intro
+Online payments are part of everyday life, and so is fraud. Spotting suspicious activity quickly, and understanding why it happened, is hard. That's where Sentinel comes in.
+
+[00:00:15] s2_solution
+Sentinel is an AI-powered payment risk platform. It combines machine learning, graph intelligence, and an AI investigation agent, to flag suspicious payments and explain them. All the data here is synthetic.
+
+[00:00:32] s3_paypal
+At its core is PayPal's Orders API. Our demo marketplace creates a PayPal Sandbox order on the server, and Sentinel scores the payment after the buyer approves it, before any money is captured. Our Sandbox keys aren't configured in this recording, so checkout says so clearly, instead of faking a payment.
+
+[00:00:56] s4_ml
+Ben usually spends about thirty-eight dollars. Now he's buying an eighteen hundred dollar laptop on a new device. The model scores the payment, and SHAP shows which factors drove that score. At forty-three times his average, the policy holds it for verification.
+
+[00:01:17] s5_graph
+Fraud often isn't isolated. Sentinel builds a graph of customers, devices, merchants, and payment destinations. To the model alone, Cara's gift card looked only medium risk. But her phone is shared with three other accounts that pay flagged wallets, so the risk is raised to high.
+
+[00:01:39] s6_agent
+High-risk payments go to the AI investigation agent. It runs seven tools, and writes a report where every finding must cite real evidence. No language model key is configured here, so it uses its labelled, rule-based fallback. It recommends rejecting, but it can't move money.
+
+[00:02:02] s7_review
+A person makes the final call. The reviewer re-enters their password, types the transaction ID, and approves, rejects, or escalates. Only an approval would let PayPal capture the funds.
+
+[00:02:18] s8_close
+Every step goes into a tamper-evident audit log. Sentinel brings machine learning, connected data, and AI investigation together, to make digital payments safer, and easier to understand. Thank you.

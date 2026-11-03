@@ -1,0 +1,46 @@
+{
+  "voice": "en-IN-NeerjaNeural",
+  "rate": "+0%",
+  "scenes": [
+    {
+      "id": "s1_intro",
+      "label": "",
+      "text": "Online payments are part of everyday life, and so is fraud. Spotting suspicious activity quickly, and understanding why it happened, is hard. That's where Sentinel comes in."
+    },
+    {
+      "id": "s2_solution",
+      "label": "Real-time risk monitoring",
+      "text": "Sentinel is an AI-powered payment risk platform. It combines machine learning, graph intelligence, and an AI investigation agent, to flag suspicious payments and explain them. All the data here is synthetic."
+    },
+    {
+      "id": "s3_paypal",
+      "label": "PayPal Orders API · Sandbox",
+      "text": "At its core is PayPal's Orders API. Our demo marketplace creates a PayPal Sandbox order on the server, and Sentinel scores the payment after the buyer approves it, before any money is captured. Our Sandbox keys aren't configured in this recording, so checkout says so clearly, instead of faking a payment."
+    },
+    {
+      "id": "s4_ml",
+      "label": "ML risk score + SHAP explanation",
+      "text": "Ben usually spends about thirty-eight dollars. Now he's buying an eighteen hundred dollar laptop on a new device. The model scores the payment, and SHAP shows which factors drove that score. At forty-three times his average, the policy holds it for verification."
+    },
+    {
+      "id": "s5_graph",
+      "label": "Graph intelligence · NetworkX",
+      "text": "Fraud often isn't isolated. Sentinel builds a graph of customers, devices, merchants, and payment destinations. To the model alone, Cara's gift card looked only medium risk. But her phone is shared with three other accounts that pay flagged wallets, so the risk is raised to high."
+    },
+    {
+      "id": "s6_agent",
+      "label": "AI investigation agent · LangGraph",
+      "text": "High-risk payments go to the AI investigation agent. It runs seven tools, and writes a report where every finding must cite real evidence. No language model key is configured here, so it uses its labelled, rule-based fallback. It recommends rejecting, but it can't move money."
+    },
+    {
+      "id": "s7_review",
+      "label": "Human-in-the-loop decision",
+      "text": "A person makes the final call. The reviewer re-enters their password, types the transaction ID, and approves, rejects, or escalates. Only an approval would let PayPal capture the funds."
+    },
+    {
+      "id": "s8_close",
+      "label": "Hash-chained audit trail",
+      "text": "Every step goes into a tamper-evident audit log. Sentinel brings machine learning, connected data, and AI investigation together, to make digital payments safer, and easier to understand. Thank you."
+    }
+  ]
+}
